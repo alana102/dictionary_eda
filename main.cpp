@@ -1,4 +1,5 @@
 #include "AVL/AVL.hpp"
+#include "RBTree/RBTree.hpp"
 #include<iostream>
 using namespace std;
 
