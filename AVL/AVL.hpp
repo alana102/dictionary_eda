@@ -11,6 +11,8 @@ private:
     Node<k, value>* root; 
     // contador de comparações
     int counter_compare;
+    // contador de rotações
+    int counter_rotations;
 
     // função que limpa a árvore inteiro,
     // apagando todos os nós recursivamente
@@ -52,14 +54,20 @@ private:
 
         if(bal > 1 && balance(node->right) >=0 ){
             return rotation_left(node);
+            counter_rotations++;
         } else if (bal > 1 && balance(node->right) < 0) {
             node->right = rotation_right(node->right);
+            counter_rotations++;
             return rotation_left(node);
+            counter_rotations++;
         } else if (bal < -1 && balance(node->left) <= 0) {
             return rotation_right(node);
+            counter_rotations++;
         } else if (bal < -1 && balance(node->left) > 0) {
             node->left = rotation_left(node->left);
+            counter_rotations++;
             return rotation_right(node);
+            counter_rotations++;
         }
 
         node->height = 1 + max(height(node->left), height(node->right));
@@ -186,23 +194,29 @@ private:
         if(bal < -1 && key.first < p->left->key.first){
             counter_compare++;
             return rotation_right(p);
+            counter_rotations++;
         }
 
         if(bal < -1 && key.first > p->left->key.first){
             counter_compare++;
             p->left = rotation_left(p->left);
+            counter_rotations++;
             return rotation_right(p);
+            counter_rotations++;
         }
 
         if(bal > 1 && key.first > p->right->key.first){
             counter_compare++;
             return rotation_left(p);
+            counter_rotations++;
         }
 
         if(bal > 1 && key.first < p->right->key.first){
             counter_compare++;
             p->right = rotation_right(p->right);
+            counter_rotations++;
             return rotation_left(p);
+            counter_rotations++;
         }
         
         return p;
@@ -386,6 +400,11 @@ public:
     // função que retorna quantas comparações foram feitas
     int getCounterCompare(){
         return counter_compare;
+    }
+
+    // função que retorna quantas rotações foram feitas
+    int getCounterRotation(){
+        return counter_rotations;
     }
 
     // sobrecarga do operador de atribuição

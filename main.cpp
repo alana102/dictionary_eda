@@ -14,6 +14,7 @@ int main(){
     arv1.bshow();
 
     cout << "Qntd de comparacoes: " << arv1.getCounterCompare() << endl;
+    cout << "Qntd de rotacoes: " << arv1.getCounterRotation() << endl;
 
 
 
