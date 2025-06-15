@@ -1,32 +1,75 @@
 #ifndef RBTREE_HPP
 #define RBTREE_HPP
+#include "NodeRB.hpp"
 
 template <typename k, typename value>
 
 class RBTree{
 private:
     // ponteiro para raiz
-    Node<k, value>* root;
+    NodeRB<k, value>* root;
     // ponteiro para nil
-    Node<k, value>* nil;
+    NodeRB<k, value>* nil;
     // contador de comparações
     int counter_compare;
     // contador de troca de cores
     int counter_switch;
 
+    void bshow(NodeRB<k, value> *node, std::string heranca) {
+        if(node != nil && (node->left != nil || node->right != nil))
+            bshow(node->right , heranca + "r");
+
+        for(int i = 0; i < (int) heranca.size() - 1; i++)
+            std::cout << (heranca[i] != heranca[i + 1] ? "|   " : "    ");
+
+        if(heranca != "")
+            std::cout << (heranca.back() == 'r' ? "|-- " : "|-- ");
+        
+        if(node == nil){
+            std::cout << "#" << std::endl;
+            return;
+        }
+
+        std::cout << "(" << node->key.first << ", " << node->key.second << ")";
+        if(node->color == red){
+            std::cout << " R" << std::endl;
+        } else {
+            std::cout << " B" << std::endl;
+        }
+
+        if(node != nil && (node->left != nil || node->right != nil))
+            bshow(node->left, heranca + "l");
+    }
+
+    // retorna o valor mínimo de uma sub-árvore de raiz node
+    NodeRB<k, value> *minimum(NodeRB<k, value> *node){
+        if(node != nil && node->left != nil){
+            return minimum(node->left);
+        } else {
+            return node;
+        }
+    }
+
+    
 public:
 
     // construtor vazio
     RBTree(){
-        nil = new Node<k, value>(make_pair((),()), nullptr, nullptr, nullptr, black);
+        nil = new NodeRB<k, value>(make_pair(k{}, value{}), nullptr, nullptr, nullptr, black);
         nil->left = nil->right = nil;
         root = nil;
         root->parent = nil;
+        counter_compare = 0;
+        counter_switch = 0;
+    }
+
+    void bshow(){
+        bshow(root, "");
     }
 
     // rotação a esquerda
-    void leftRotation(RBTree<k, value>* T, Node<k, value>* x){
-        Node<k, value> *y = x->right;
+    void leftRotation(RBTree<k, value>* T, NodeRB<k, value>* x){
+        NodeRB<k, value> *y = x->right;
         x->right = y->left;
         if(y->left != T->nil){
             y->left->parent = x;
@@ -46,8 +89,8 @@ public:
     }
 
     // rotação a direita
-    void rightRotation(RBTree<k, value>* T, Node<k, value>* x){
-        Node<k, value> *y = x->left;
+    void rightRotation(RBTree<k, value>* T, NodeRB<k, value>* x){
+        NodeRB<k, value> *y = x->left;
         x->left = y->right;
         if(y->right != T->nil){
             y->right->parent = x;
@@ -66,17 +109,17 @@ public:
         x->parent = y; 
     }
 
-    bool search(RBTree<k, value>* T, int key){
-        Node<k, value>* aux = T->root;
+    bool search(RBTree<k, value>* T, pair<k, value> key){
+        NodeRB<k, value>* aux = T->root;
 
         // enquanto eu nn chegar em uma folha (nil)
         while(aux != T->nil){
 
             // verificação do valor da chave para sabe pra onde deslocamos o aux
-            if(key < aux->key){
+            if(key.first < aux->key.first){
                 counter_compare++;
                 aux = aux->left;
-            } else if (key > aux->key){
+            } else if (key.first > aux->key.first){
                 counter_compare++;
                 aux = aux->right;
             } else {
@@ -88,12 +131,12 @@ public:
         return false;
     }
 
-    void RBfixup_insert(RBTree<k, value>* T, Node<k, value>* node){
+    void RBfixup_insert(RBTree<k, value>* T, NodeRB<k, value>* node){
 
         while(node->parent->color == red){
             // caso em que o tio está do lado direito
             if(node->parent == node->parent->parent->left){
-                Node<k, value>* tio = node->parent->parent->right;
+                NodeRB<k, value>* tio = node->parent->parent->right;
 
                 // caso 1 (tio é vermelho)
                 if(tio->color == red){
@@ -121,7 +164,7 @@ public:
                 }
             // caso em que o tio está do lado esquerdo (simétrico)
             } else {
-                Node<k, value>* tio = node->parent->parent->left;
+                NodeRB<k, value>* tio = node->parent->parent->left;
 
                 // caso 1 (tio é vermelho)
                 if(tio->color == red){
@@ -159,18 +202,18 @@ public:
     // iterativa!!!
     void insert(RBTree<k, value>* T, pair<k, value> key){
         // ponteiros para o nó atual (aux) que estou verificando e seu pai (pai)
-        Node<k, value>* aux = T->root;
-        Node<k, value>* pai = T->nil;
+        NodeRB<k, value>* aux = T->root;
+        NodeRB<k, value>* pai = T->nil;
 
         // enquanto eu nn chegar em uma folha (nil)
         while(aux != T->nil){
             // vamos deslocar os ponteiros, então pai recebe o que antes era o nó atual
             pai = aux;
             // verificação do valor da chave para sabe pra onde deslocamos o aux
-            if(key < aux->key){
+            if(key.first < aux->key.first){
                 counter_compare++;
                 aux = aux->left;
-            } else if (key > aux->key){
+            } else if (key.first > aux->key.first){
                 counter_compare++;
                 aux = aux->right;
             } else {
@@ -180,7 +223,7 @@ public:
         }
 
         // cria novo nó com a chave
-        Node<k, value> *z = new Node(key, T->nil, T->nil, nullptr, red);
+        NodeRB<k, value> *z = new NodeRB<k, value>(key, T->nil, T->nil, nullptr, red);
 
         // caso em que a árvore é vazia 
         // novo nó vai ser justamente a raiz
@@ -195,8 +238,8 @@ public:
             z->parent = pai;
 
             // verifica de que lado do pai inserimos o novo nó
-            if(key < pai->key){
-                counter_compare++:
+            if(key.first < pai->key.first){
+                counter_compare++;
                 pai->left = z;
             } else {
                 pai->right = z;
@@ -208,9 +251,129 @@ public:
         RBfixup_insert(T, z);
     }
 
+    // função de remover nó
+    void remove(RBTree<k, value>* T, pair<k, value> keyremove){
+        NodeRB<k, value>* p = T->root;
+        while(p != T->nil && p->key != keyremove){
+            if(keyremove.first < p->key.first){
+                p = p->left;
+            } else {
+                p = p->right;
+            }
+        }
+
+        if(p != T->nil){
+            RB_delete(T, p);
+        }
+    }
+
+    // função auxiliar de remoção
+    void RB_delete(RBTree<k, value>* T, NodeRB<k, value>* z){
+        NodeRB<k, value>* y = T->nil;
+        NodeRB<k, value>* x = T->nil;
+        if(z->left == T->nil || z->right == T->nil){
+            y = z;
+        } else {
+            y = minimum(z->right);
+        }
+
+        if(y->left != T->nil){
+            x = y->left;
+        } else {
+            x = y->right;
+        }
+
+        x->parent = y->parent;
+        if(y->parent == T->nil){
+            T->root = x;
+        } else {
+            if(y == y->parent->left){
+                y->parent->left = x;
+            } else {
+                y->parent->right = x;
+            }
+        }
+
+        if(y != z){
+            z->key = y->key;
+        }
+
+        if(y->color == black){
+            RBfixup_delete(T, x);
+        }
+
+        delete y;
+    }
+
+    // função que ajeita as colorações dos nós após uma remoção
+    void RBfixup_delete(RBTree<k, value>* T, NodeRB<k, value>* x){
+        NodeRB<k, value>* w;
+        while(x != T->root && x->color == black){
+            if(x == x->parent->left){
+                w = x->parent->right;
+                if(w->color == red){
+                    w->color = black;
+                    x->parent->color = red;
+                    leftRotation(T, x->parent);
+                    w = x->parent->right;
+                }
+
+                if(w->left->color == black && w->right->color == black){
+                    w->color = red;
+                    x = x->parent;
+                } else{
+                    if(w->right->color == black){
+                        w->left->color = black;
+                        w->color = red;
+                        rightRotation(T, w);
+                        w = x->parent->right;
+                    }
+
+                    w->color = x->parent->color;
+                    x->parent->color = black;
+                    w->right->color = black;
+                    leftRotation(T, x->parent);
+                    x = T->root;
+                }
+        // caso simétrico        
+        } else {
+            w = x->parent->left;
+                if(w->color == red){
+                    w->color = black;
+                    x->parent->color = red;
+                    rightRotation(T, x->parent);
+                    w = x->parent->left;
+                }
+
+                if(w->right->color == black && w->left->color == black){
+                    w->color = red;
+                    x = x->parent;
+                } else{
+                    if(w->left->color == black){
+                        w->right->color = black;
+                        w->color = red;
+                        leftRotation(T, w);
+                        w = x->parent->left;
+                    }
+
+                    w->color = x->parent->color;
+                    x->parent->color = black;
+                    w->left->color = black;
+                    rightRotation(T, x->parent);
+                    x = T->root;
+                }
+
+        }
+
+        x->color = black;
+
+    }
+    }
+
+
     int blackHeight(){
         int contador = 0;
-        Node<k, value>* aux = root;
+        NodeRB<k, value>* aux = root;
         while(aux != nil){
             aux = aux->left;
             if(aux->color == black){
@@ -218,6 +381,14 @@ public:
             }
         }
         return contador;
+    }
+
+    int getCounterCompare(){
+        return counter_compare;
+    }
+
+    int getCounterSwitch(){
+        return counter_switch;
     }
 };
 

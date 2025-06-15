@@ -81,12 +81,13 @@ private:
     Node<k, value> *remove(Node<k, value> *node, pair<k, value> key){
         if (node == nullptr){
             return nullptr;
-        } else if (key.first < node->key.first){
+        } 
+        if (key.first < node->key.first){
             counter_compare++;
-            remove(node->left, key);
+            node->left = remove(node->left, key);
         } else if (key.first > node->key.first) {
             counter_compare++;
-            remove(node->right, key);
+            node->left = remove(node->right, key);
         } else if (node->right == nullptr){
             Node<k, value> *filho = node->left;
             delete node;
@@ -351,6 +352,7 @@ public:
     AVL(){
         root = nullptr;
         counter_compare = 0;
+        counter_rotations = 0;
     }
 
     void bshow(){

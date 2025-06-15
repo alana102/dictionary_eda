@@ -1,20 +1,20 @@
-#ifndef NODERB_HPP
-#define NODERB_HPP
+#ifndef NodeRB_HPP
+#define NodeRB_HPP
 #include <iostream>
 
 #define red true
 #define black false
 
 template <typename k, typename value>
-struct Node {
+struct NodeRB {
 
     pair<k, value> key;
-    Node* left;
-    Node* right;
-    Node* parent;
+    NodeRB* left;
+    NodeRB* right;
+    NodeRB* parent;
     bool color; 
 
-    Node (pair<k, value> key, Node* left, Node* right, Node* parent, bool color){
+    NodeRB (pair<k, value> key, NodeRB* left, NodeRB* right, NodeRB* parent, bool color){
         this->key = key;
         this->left = left;
         this->right = right;
@@ -22,8 +22,8 @@ struct Node {
         this->color = color; 
     }
 
-    ~Node(){
-        std::cout << "O nó " << key << " foi deletado" << std::endl;
+    ~NodeRB(){
+        std::cout << "O no (" << key.first << ", " << key.second << ") foi deletado" << std::endl;
     }
 };
 
