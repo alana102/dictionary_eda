@@ -53,21 +53,22 @@ private:
         int bal = balance(node);
 
         if(bal > 1 && balance(node->right) >=0 ){
-            return rotation_left(node);
             counter_rotations++;
+            return rotation_left(node);
         } else if (bal > 1 && balance(node->right) < 0) {
             node->right = rotation_right(node->right);
             counter_rotations++;
+            counter_rotations++;
             return rotation_left(node);
-            counter_rotations++;
         } else if (bal < -1 && balance(node->left) <= 0) {
-            return rotation_right(node);
             counter_rotations++;
+            return rotation_right(node);
         } else if (bal < -1 && balance(node->left) > 0) {
             node->left = rotation_left(node->left);
             counter_rotations++;
-            return rotation_right(node);
             counter_rotations++;
+            return rotation_right(node);
+
         }
 
         node->height = 1 + max(height(node->left), height(node->right));
@@ -194,30 +195,34 @@ private:
 
         if(bal < -1 && key.first < p->left->key.first){
             counter_compare++;
-            return rotation_right(p);
             counter_rotations++;
+            return rotation_right(p);
+            
         }
 
         if(bal < -1 && key.first > p->left->key.first){
             counter_compare++;
             p->left = rotation_left(p->left);
             counter_rotations++;
-            return rotation_right(p);
             counter_rotations++;
+            return rotation_right(p);
+            
         }
 
         if(bal > 1 && key.first > p->right->key.first){
             counter_compare++;
-            return rotation_left(p);
             counter_rotations++;
+            return rotation_left(p);
+            
         }
 
         if(bal > 1 && key.first < p->right->key.first){
             counter_compare++;
             p->right = rotation_right(p->right);
             counter_rotations++;
-            return rotation_left(p);
             counter_rotations++;
+            return rotation_left(p);
+            
         }
         
         return p;

@@ -50,6 +50,17 @@ private:
         }
     }
 
+    // função que limpa a árvore inteiro,
+    // apagando todos os nós recursivamente
+    NodeRB<k,value> *clear(NodeRB<k, value>* node){
+        if(node != nil){
+            node->left = clear(node->left);
+            node->right = clear(node->right);
+            delete node;
+        }
+        return nullptr;
+    }
+
     
 public:
 
@@ -365,9 +376,10 @@ public:
 
         }
 
-        x->color = black;
+        
 
-    }
+        }
+        x->color = black;
     }
 
 
@@ -389,6 +401,10 @@ public:
 
     int getCounterSwitch(){
         return counter_switch;
+    }
+
+    ~RBTree(){
+        root = clear(root);
     }
 };
 
