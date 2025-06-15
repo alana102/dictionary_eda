@@ -87,7 +87,7 @@ private:
             node->left = remove(node->left, key);
         } else if (key.first > node->key.first) {
             counter_compare++;
-            node->left = remove(node->right, key);
+            node->right = remove(node->right, key);
         } else if (node->right == nullptr){
             Node<k, value> *filho = node->left;
             delete node;

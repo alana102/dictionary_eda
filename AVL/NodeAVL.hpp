@@ -19,6 +19,10 @@ struct Node{
         height = 1;
     }
 
+    ~Node(){
+        cout << "no (" << key.first << ", " << key.second << ") removido com sucesso" << endl;
+    }
+
 };
 
 #endif
