@@ -173,7 +173,7 @@ public:
 
     void reserve(size_t n){
         if(n > m_tabSize*m_maxLoad){
-            rehash(n);
+            rehash(n/m_maxLoad);
         } else {
             return;
         }
