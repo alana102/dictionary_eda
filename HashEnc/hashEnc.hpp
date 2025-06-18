@@ -227,8 +227,8 @@ public:
     value& operator[](const key& k){
         size_t slot = hashCode(k);
         for (auto& par : m_table(slot)){
-           if(par->first == k){
-              return par->second;
+           if(par.first == k){
+              return par.second;
            }
         }
         m_table[slot].push_back({k, value{}});
