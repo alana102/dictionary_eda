@@ -253,10 +253,10 @@ private:
         if (node != nullptr) {
             printInfix(node->left, espaco);
             if (espaco) {
-                cout << node->key;
+                cout << "(" << node->key.first << ", " << node->key.second <<")";
                 espaco = false;
             } else {
-                cout << ", " << node->key;
+                cout << ", " << "(" << node->key.first << ", " << node->key.second <<")";
             }
             printInfix(node->right, espaco);
         }
@@ -432,6 +432,12 @@ public:
     // deletando todos os seus elementos
     void clear(){
         root = clear(root);
+    }
+
+    void print(){
+        bool espaco = true;
+        printInfix(root, espaco);
+        cout << endl;
     }
 
 
