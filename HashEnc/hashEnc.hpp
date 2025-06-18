@@ -169,7 +169,9 @@ public:
      * 
      * @param m := o novo tamanho da tabela hash
      */
-    void rehash(size_t m);
+    void rehash(size_t m){
+      size_t new_tabSize = getNextPrime(m);
+    }
 
     void reserve(size_t n){
         if(n > m_tabSize*m_maxLoad){
