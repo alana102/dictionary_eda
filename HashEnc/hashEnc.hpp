@@ -225,11 +225,15 @@ public:
      * @return Value& := valor associado a chave
      */
     value& operator[](const key& k){
-        if(!contains(k)){
-            add(k, value{});
+        size_t slot = hashCode(k);
+        for (auto& par : m_table(slot)){
+           if(par->first == k){
+              return par->second;
+           }
         }
-
-        return at(k);
+        m_table[slot].push_back({k, value{}});
+        m_numElements++;
+        return m_table[slot].back().second;
     }
 
 
