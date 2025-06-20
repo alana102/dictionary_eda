@@ -22,7 +22,7 @@ private:
     hash m_hash;
 
     // retorna o próximo nº primo
-    size_t getNexPrime(size_t size){
+    size_t getNextPrime(size_t size){
         if(size <= 2) return 3;
         size = (size % 2 == 0) ? size + 1 : size;
 
@@ -51,7 +51,7 @@ public:
     // construtor vazio
     hashEnc(size_t size = 19){
         m_numElements = 0;
-        m_tabSize = getNexPrime(size);
+        m_tabSize = getNextPrime(size);
         m_table.resize(m_tabSize);
         m_maxLoad = 1;
     }
@@ -171,6 +171,20 @@ public:
      */
     void rehash(size_t m){
       size_t new_tabSize = getNextPrime(m);
+        if(new_tabSize > m_tabSize) {
+            vector<list<pair<key, value>>> old_vec;
+            old_vec = m_table; // copia as chaves para uma nova tabela
+            m_table.clear(); // apaga todas as chaves da tabela atual e deixa ela vazia
+            m_table.resize(new_tabSize); // tabela redimensionada com novo primo
+            m_numElements = 0;
+            m_tabSize = new_tabSize;
+            for(size_t i = 0; i < old_vec.size(); ++i) {
+                for(auto& par : old_vec[i]) {
+                    add(par.first, par.second);
+                }
+                old_vec[i].clear(); // opcional
+            }            
+        }
     }
 
     void reserve(size_t n){
@@ -248,10 +262,6 @@ public:
      * @return Value& := valor associado a chave
      */
     const value& operator[](const key& k) const{
-        if(!contains(k)){
-            throw out_of_range("invalid key");
-        }
-
         return at(k);
     }
 
