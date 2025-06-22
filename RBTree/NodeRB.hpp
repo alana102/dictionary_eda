@@ -22,9 +22,6 @@ struct NodeRB {
         this->color = color; 
     }
 
-    ~NodeRB(){
-        std::cout << "O no (" << key.first << ", " << key.second << ") foi deletado" << std::endl;
-    }
 };
 
 #endif

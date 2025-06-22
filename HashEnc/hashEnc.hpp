@@ -14,6 +14,7 @@ private:
 
     size_t m_numElements;
     size_t m_tabSize;
+    int counterCompare;
 
     float m_maxLoad;
 
@@ -216,7 +217,7 @@ public:
 
     // muda o fator de carga máximo
     void set_max_load_factor(float lf){
-        if(lf < 0){
+        if(lf <= 0){
             throw out_of_range("invalid value");
         }
 
@@ -239,6 +240,9 @@ public:
      * @return Value& := valor associado a chave
      */
     value& operator[](const key& k){
+        if(load_factor() >= m_maxLoad){
+            rehash(2*m_tabSize);
+        }
         size_t slot = hashCode(k);
         for (auto& par : m_table(slot)){
            if(par.first == k){
