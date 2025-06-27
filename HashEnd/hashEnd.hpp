@@ -31,6 +31,7 @@ private:
     size_t m_tabSize; // tamanho da tabela
     size_t m_numElements; // nº de elementos
     int counter_compare; // contador de comparações de chaves
+    int counter_rehash; // contador de rehash
 
     float m_maxLoad; 
     hash m_hash;

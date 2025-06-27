@@ -1,8 +1,26 @@
 // Alana Maria Sousa Augusto - 564976
 #ifndef AVL_HPP
 #define AVL_HPP
-#include "NodeAVL.hpp"
 #include<vector>
+#include<iostream>
+
+using namespace std;
+
+template <typename k, typename value>
+struct Node{
+
+    pair<k, value> key;
+    Node *right;
+    Node *left;
+    int height;
+
+    Node(pair<k, value> newKey, Node *r, Node *l){
+        key = newKey;
+        right = r;
+        left = l;
+        height = 1;
+    }
+};
 
 template<typename k, typename value>
 class AVL {

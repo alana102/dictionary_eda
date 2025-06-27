@@ -15,12 +15,12 @@ public:
 
     /*
     Funcionalidades:
-    Criação -> criar um dicionário vazio ou com pares iniciais
-    Inserção -> inserir um novo par no dicionário
+    Criação -> criar um dicionário vazio ou com pares iniciais OK
+    Inserção -> inserir um novo par no dicionário OK
     Atualização -> modificar o valor de uma chave
     Acesso -> recuperar o valor associado a uma chave
-    Remoção -> remover um par usando a chave
-    Verificar existência -> verifica se a chave existe
+    Remoção -> remover um par usando a chave OK
+    Verificar existência -> verifica se a chave existe OK
     Iteração -> percorre os pares
     Tamanho -> retorna nº de pares OK
     Limpeza -> remove todos os pares
@@ -59,6 +59,13 @@ public:
             //update(k, v);
         }
         avlTree.insert(make_pair(k, v));
+    }
+
+    void remove(key k){
+        if(!avlTree.contains(k)){
+            throw out_of_range("key doesn't exist already");
+        }
+        avlTree.erase(make_pair(k, value {}));
     }
 
     /*void update(key k, value v){
