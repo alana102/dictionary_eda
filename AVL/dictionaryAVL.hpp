@@ -3,11 +3,13 @@
 
  #include "AVL.hpp"
  #include<iostream>
+ #include<vector>
 
+template<typename key, typename value>
 class dictionaryAVL{
 private:
 
-    AVL<string, int> avlTree;
+    AVL<key, value> avlTree;
 
 public:
 
@@ -46,17 +48,39 @@ public:
 
     // construtor que recebe como parâmetro uma lista de palavras
     // e adicona elas no dicionário (desserializa)
-    dictionaryAVL(){
-
+    dictionaryAVL(vector<pair<key, value>>& vec){
+        for(size_t i = 0; i < vec.size(); i++){
+            avlTree.insert(vec.at(i));
+        }
     }
+
+    void insert(key k, value v){
+        if(avlTree.contains(k)){
+            //update(k, v);
+        }
+        avlTree.insert(make_pair(k, v));
+    }
+
+    /*void update(key k, value v){
+
+    }*/
 
     // retorna quantas palavras estão presentes no dicionário
     int qntPalavras(){
         return avlTree.size();
     }
 
-    bool contains(string key){
-        return avlTree.contains(key);
+    // verifica se uma chave existe no dicionário
+    bool contains(key k){
+        return avlTree.contains(k);
+    }
+
+    void printMetricas(){
+        int compare = avlTree.getCounterCompare();
+        int rotation = avlTree.getCounterRotation();
+
+        cout << "Num de comparacoes de chaves: " << compare << "." << endl;
+        cout << "Num de rotacoes: " << rotation << "." << endl;
     }
 
 };

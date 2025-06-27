@@ -131,9 +131,10 @@ public:
                 counter_compare++;
                 aux = aux->left;
             } else if (key.first > aux->key.first){
-                counter_compare++;
+                counter_compare+=2;
                 aux = aux->right;
             } else {
+                counter_compare+=2;
                 // caso em que a chave já existe na árvore
                 return true;
             }
@@ -152,11 +153,9 @@ public:
                 // caso 1 (tio é vermelho)
                 if(tio->color == red){
                     node->parent->color = black; // pinta o pai do novo de preto
-                    counter_switch++;
                     tio->color = black; // pinta o tio do novo de preto
-                    counter_switch++;
                     node->parent->parent->color = red; // pinta o avô do novo de vermelho
-                    counter_switch++;
+                    counter_switch+=3;
                     node = node->parent->parent; // novo vira o avô (o problema provavelmente subiu pra lá)
                 // caso 2 e 3 (tio é preto)
                 } else {
@@ -167,9 +166,8 @@ public:
                     }
                     // caso 3 (novo é um filho esquerdo)
                     node->parent->color = black;
-                    counter_switch++;
                     node->parent->parent->color = red;
-                    counter_switch++;
+                    counter_switch+=2;
                     rightRotation(T, node->parent->parent);
 
                 }
@@ -180,11 +178,9 @@ public:
                 // caso 1 (tio é vermelho)
                 if(tio->color == red){
                     node->parent->color = black; // pinta o pai do novo de preto
-                    counter_switch++;
                     tio->color = black; // pinta o tio do novo de preto
-                    counter_switch++;
                     node->parent->parent->color = red; // pinta o avô do novo de vermelho
-                    counter_switch++;
+                    counter_switch+=3;
                     node = node->parent->parent; // novo vira o avô (o problema provavelmente subiu pra lá)
                 // caso 2 e 3 (tio é preto)
                 } else {
@@ -196,6 +192,7 @@ public:
                     // caso 3 (novo é um filho direito)
                     node->parent->color = black;
                     node->parent->parent->color = red;
+                    counter_switch+=2;
                     leftRotation(T, node->parent->parent);
 
                 }
@@ -205,6 +202,7 @@ public:
 
 
         T->root->color = black;
+        counter_switch++;
     }
 
     // função que insere um nó na árvore
@@ -225,9 +223,10 @@ public:
                 counter_compare++;
                 aux = aux->left;
             } else if (key.first > aux->key.first){
-                counter_compare++;
+                counter_compare+=2;
                 aux = aux->right;
             } else {
+                counter_compare+=2;
                 // caso em que a chave já existe na árvore
                 return;
             }
@@ -253,6 +252,7 @@ public:
                 counter_compare++;
                 pai->left = z;
             } else {
+                counter_compare++;
                 pai->right = z;
             }
         }
@@ -267,8 +267,10 @@ public:
         NodeRB<k, value>* p = T->root;
         while(p != T->nil && p->key != keyremove){
             if(keyremove.first < p->key.first){
+                counter_compare++;
                 p = p->left;
             } else {
+                counter_compare++;
                 p = p->right;
             }
         }
@@ -325,17 +327,20 @@ public:
                 if(w->color == red){
                     w->color = black;
                     x->parent->color = red;
+                    counter_switch+=2;
                     leftRotation(T, x->parent);
                     w = x->parent->right;
                 }
 
                 if(w->left->color == black && w->right->color == black){
                     w->color = red;
+                    counter_switch++;
                     x = x->parent;
                 } else{
                     if(w->right->color == black){
                         w->left->color = black;
                         w->color = red;
+                        counter_switch+=2;
                         rightRotation(T, w);
                         w = x->parent->right;
                     }
@@ -343,6 +348,7 @@ public:
                     w->color = x->parent->color;
                     x->parent->color = black;
                     w->right->color = black;
+                    counter_switch+=3;
                     leftRotation(T, x->parent);
                     x = T->root;
                 }
@@ -352,17 +358,20 @@ public:
                 if(w->color == red){
                     w->color = black;
                     x->parent->color = red;
+                    counter_switch+=2;
                     rightRotation(T, x->parent);
                     w = x->parent->left;
                 }
 
                 if(w->right->color == black && w->left->color == black){
                     w->color = red;
+                    counter_switch++;
                     x = x->parent;
                 } else{
                     if(w->left->color == black){
                         w->right->color = black;
                         w->color = red;
+                        counter_switch+=2;
                         leftRotation(T, w);
                         w = x->parent->left;
                     }
@@ -370,6 +379,7 @@ public:
                     w->color = x->parent->color;
                     x->parent->color = black;
                     w->left->color = black;
+                    counter_switch+=3;
                     rightRotation(T, x->parent);
                     x = T->root;
                 }
@@ -380,6 +390,7 @@ public:
 
         }
         x->color = black;
+        counter_switch++;
     }
 
 

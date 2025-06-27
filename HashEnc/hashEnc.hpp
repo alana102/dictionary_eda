@@ -15,6 +15,7 @@ private:
     size_t m_numElements;
     size_t m_tabSize;
     int counterCompare;
+    int counterRehash;
 
     float m_maxLoad;
 
@@ -55,6 +56,8 @@ public:
         m_tabSize = getNextPrime(size);
         m_table.resize(m_tabSize);
         m_maxLoad = 1;
+        counterCompare = 0;
+        counterRehash = 0;
     }
 
     // retorna quantos elementos tem na tabela
@@ -107,16 +110,18 @@ public:
 
     // adiciona um elemento na tabela, caso sua chave já não esteja presente
     bool add(const key& k, const value& v){
-         if (load_factor() >= m_maxLoad) {
+        if (load_factor() >= m_maxLoad) {
             rehash(2*m_tabSize);
-         }
+            counterRehash++;
+        }
 
          int slot = hashCode(k);
 
          // for-each (para cada elemento da lista do slot)
          for(auto p : m_table[slot]){
             if(p.first == k){
-               return false;
+                counterCompare++;
+                return false;
             }
          }
 
@@ -132,6 +137,7 @@ public:
 
         for(auto p : m_table[slot]){
             if(p.first == k){
+                counterCompare++;
                 return true;
             }
         }
@@ -150,6 +156,7 @@ public:
 
         for(auto p : m_table[slot]){
             if(p.first == k){
+                counterCompare++;
                 return p.second;
             }
         }
@@ -191,6 +198,7 @@ public:
     void reserve(size_t n){
         if(n > m_tabSize*m_maxLoad){
             rehash(n/m_maxLoad);
+            counterRehash++;
         } else {
             return;
         }
@@ -206,6 +214,7 @@ public:
 
         for(auto it = m_table[slot].begin(); it != m_table[slot].end(); ++it) {
             if(it->first == k){
+                counterCompare++;
                 m_table[slot].erase(it);
                 return true;
             }
@@ -242,10 +251,12 @@ public:
     value& operator[](const key& k){
         if(load_factor() >= m_maxLoad){
             rehash(2*m_tabSize);
+            counterRehash++;
         }
         size_t slot = hashCode(k);
         for (auto& par : m_table(slot)){
            if(par.first == k){
+              counterCompare++;
               return par.second;
            }
         }

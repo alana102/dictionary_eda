@@ -87,13 +87,14 @@ private:
             counter_compare++;
             node->left = remove(node->left, key);
         } else if (key.first > node->key.first) {
-            counter_compare++;
+            counter_compare+=2;
             node->right = remove(node->right, key);
         } else if (node->right == nullptr){
             Node<k, value> *filho = node->left;
             delete node;
             return filho;
         } else {
+            counter_compare+=2;
             node->right = remove_successor(node, node->right);
         }
 
@@ -120,18 +121,19 @@ private:
 
     // função que retorna um nó de acordo com 
     // a chave passada como parâmetro
-    Node<k, value> *get(Node<k, value> *node, pair<k, value> key){
+    Node<k, value> *get(Node<k, value> *node, k key){
         if (node == nullptr) {
             return nullptr;
         }
 
-        if(node->key.first == key.first){
+        if(node->key.first == key){
             counter_compare++;
             return node;
-        } else if (key.first < node->key.first) {
-            counter_compare++;
+        } else if (key < node->key.first) {
+            counter_compare+=2;
             return get(node->left, key);
         } else {
+            counter_compare+=2;
             return get(node->right, key);
         } 
 
@@ -197,32 +199,22 @@ private:
             counter_compare++;
             counter_rotations++;
             return rotation_right(p);
-            
-        }
-
-        if(bal < -1 && key.first > p->left->key.first){
-            counter_compare++;
+        } else if(bal < -1 && key.first > p->left->key.first){
+            counter_compare+=2;
             p->left = rotation_left(p->left);
-            counter_rotations++;
-            counter_rotations++;
-            return rotation_right(p);
-            
-        }
-
-        if(bal > 1 && key.first > p->right->key.first){
-            counter_compare++;
+            counter_rotations+=2;
+            return rotation_right(p);  
+        } else if(bal > 1 && key.first > p->right->key.first){
+            counter_compare+=3;
             counter_rotations++;
             return rotation_left(p);
-            
-        }
-
-        if(bal > 1 && key.first < p->right->key.first){
-            counter_compare++;
+        } else if(bal > 1 && key.first < p->right->key.first){
+            counter_compare+=4;
             p->right = rotation_right(p->right);
-            counter_rotations++;
-            counter_rotations++;
-            return rotation_left(p);
-            
+            counter_rotations+=2;
+            return rotation_left(p);  
+        } else {
+            counter_compare+=4;
         }
         
         return p;
@@ -238,8 +230,10 @@ private:
             counter_compare++;
             node->left = insert(node->left, key);
         } else if (key.first > node->key.first) {
-            counter_compare++;
+            counter_compare+=2;
             node->right = insert(node->right, key);
+        } else {
+            counter_compare+=2;
         }
 
         node = fixupNode(node, key);
@@ -279,9 +273,10 @@ private:
                     pai = aux;
                     aux = aux->left;
                 } else if (node->key.first > aux->key.first){
-                    counter_compare++;
+                    counter_compare+=2;
                     aux = aux->right;
                 } else {
+                    counter_compare+=2;
                     break;
                 }
             }
@@ -305,9 +300,10 @@ private:
                     pai = aux;
                     aux = aux->right;
                 } else if (node->key.first < aux->key.first){
-                    counter_compare++;
+                    counter_compare+=2;
                     aux = aux->left;
                 } else {
+                    counter_compare+=2;
                     break;
                 }
             }
@@ -380,7 +376,7 @@ public:
     }
 
     // função que retorna a altura de um determinado nó
-    int height(pair<k, value> key){
+    int height(k key){
         if(get(root, key) == nullptr){
             return 0;
         } else {
@@ -400,7 +396,7 @@ public:
     }
 
     // verifica se um elemento pertence aa árvore
-    bool contains(pair<k, value> key){
+    bool contains(k key){
         return get(root, key) != nullptr;
     }
 
