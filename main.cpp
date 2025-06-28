@@ -1,10 +1,11 @@
 #include<iostream>
+#include "AVL/dictionaryAVL.hpp"
+
 using namespace std;
 
 int main(int argc, char* argv[]){
-    cout << "num de parametros = " << argc << endl;
-    for (int i = 0; i < argc; ++i){
-        cout << argv[i] << endl;
+    if(argv[1] == "inserir"){
+        cout << "omg" << endl;
     }
     return 0;
 }

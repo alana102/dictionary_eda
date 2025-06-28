@@ -125,7 +125,7 @@ public:
             }
          }
 
-         m_table[slot].push_back[make_pair(k, v)];
+         m_table[slot].push_back(make_pair(k, v));
          m_numElements++; 
 
          return true;
@@ -216,6 +216,7 @@ public:
             if(it->first == k){
                 counterCompare++;
                 m_table[slot].erase(it);
+                m_numElements--;
                 return true;
             }
         }   
@@ -233,6 +234,14 @@ public:
         m_maxLoad = lf;
 
         reserve(m_numElements);
+    }
+
+    int getCounterCompare(){
+        return counterCompare;
+    }
+
+    int getCounterRehash(){
+        return counterRehash;
     }
 
     /**
