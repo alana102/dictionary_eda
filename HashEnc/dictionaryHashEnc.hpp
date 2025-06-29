@@ -1,3 +1,4 @@
+ // Alana Maria Sousa Augusto - 564976
  #ifndef HASHENC_DICTIONARY
  #define HASHENC_DICTIONAY
 
@@ -5,11 +6,12 @@
  #include<iostream>
  #include<vector>
 
-template<typename key, typename value>
+template<typename key, typename value, typename hash = hash<key>>
 class dictionaryHashEnc{
 private:
 
-    hashEnc<key, value> hashTable;
+    // dicionário baseado em uma hash por encadeamento exterior
+    hashEnc<key, value>* hashTable;
 
 public:
 
@@ -17,78 +19,77 @@ public:
     Funcionalidades:
     Criação -> criar um dicionário vazio ou com pares iniciais OK
     Inserção -> inserir um novo par no dicionário OK
-    Atualização -> modificar o valor de uma chave
-    Acesso -> recuperar o valor associado a uma chave
+    Atualização -> modificar o valor de uma chave OK
+    Acesso -> recuperar o valor associado a uma chave OK
     Remoção -> remover um par usando a chave OK
     Verificar existência -> verifica se a chave existe OK
-    Iteração -> percorre os pares
+    Iteração -> percorre os pares ?
     Tamanho -> retorna nº de pares OK
-    Limpeza -> remove todos os pares
-    */
-
-    /*
-    //Função em pré-ordem que vai lendo uma stringstream
-    //e gerando os nós da árvore
-    Node* desserializa(std::stringstream ss){
-        std::string token;
-        ss>>token;
-        if(token=="#"){
-            return nullptr;
-        }else{
-            int val=std::stoi(token);
-            Node *aux=new Node(val, nullptr, nullptr);
-        }
-    }
+    Limpeza -> remove todos os pares OK
     */
 
     // construtor vazio
-    dictionaryHashEnc(){
-        
+    dictionaryHashEnc(size_t size = 10, float maxLoad = 1){
+        hashTable = new hashEnc<key, value, hash>(size, maxLoad);
     }
 
     // construtor que recebe como parâmetro uma lista de palavras
-    // e adicona elas no dicionário (desserializa)
-    dictionaryHashEnc(vector<pair<key, value>>& vec){
-        for(size_t i = 0; i < vec.size(); i++){
-            hashTable.add(vec.at(i).first, vec.at(i).second);
+    // e adicona elas no dicionário 
+    dictionaryHashEnc(vector<pair<key, value>>& vec) : dictionaryHashEnc(){
+        for(const auto& p : vec){
+            hashTable->add(p.first, p.second);
         }
     }
 
+    // retorna o valor associado a uma chave
+    value& get(const key& k){
+        return (*hashTable)[k];
+
+    }
+
+    // insere uma palavra no dicionário
     void insert(key k, value v){
-        if(hashTable.contains(k)){
+        if(hashTable->contains(k)){
             update(k, v);
         }
-        hashTable.add(k, v);
+        hashTable->add(k, v);
     }
 
+    // remove uma palavra do dicionário
     void remove(key k){
-        if(!hashTable.contains(k)){
+        if(!hashTable->contains(k)){
             throw out_of_range("key doesn't exist already");
         }
-        hashTable.remove(k);
+        hashTable->remove(k);
     }
 
+    // atualiza o valor associado a uma palavra
     void update(key k, value v){
-        hashTable[k] = v;
+        (*hashTable)[k] = v;
     }
 
     // retorna quantas palavras estão presentes no dicionário
     int qntPalavras(){
-        return hashTable.size();
+        return hashTable->size();
     }
 
     // verifica se uma chave existe no dicionário
     bool contains(key k){
-        return hashTable.contains(k);
+        return hashTable->contains(k);
     }
 
+    // limpa toda a tabela
+    void clear(){
+        hashTable->clear();
+    }
+
+    // printa as metricas de comparação e de rehash
     void printMetricas(){
-        int compare = hashTable.getCounterCompare();
-        int rehash = hashTable.getCounterRehash();
+        int compare = hashTable->getCounterCompare();
+        int rehash = hashTable->getCounterRehash();
 
         cout << "Num de comparacoes de chaves: " << compare << "." << endl;
         cout << "Num de rehashs: " << rehash << "." << endl;
-        cout << hashTable["alana"] << endl;
     }
 
 };
