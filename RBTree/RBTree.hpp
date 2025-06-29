@@ -6,18 +6,21 @@
 
 using namespace std;
 
+// definição de cores para tipo booleano
 #define red true
 #define black false
 
 template <typename k, typename value>
+// struct que define como é cada nó da árvore
 struct NodeRB {
 
-    pair<k, value> key;
-    NodeRB* left;
-    NodeRB* right;
-    NodeRB* parent;
-    bool color; 
+    pair<k, value> key; // chave do tipo par<template chave, template valor> 
+    NodeRB* left; // ponteiro para esquerda
+    NodeRB* right; // ponteiro para direita
+    NodeRB* parent; // ponteiro para pai
+    bool color; // variável para cor (vermelho ou preto)
 
+    // construtor do nó
     NodeRB (pair<k, value> key, NodeRB* left, NodeRB* right, NodeRB* parent, bool color){
         this->key = key;
         this->left = left;
@@ -35,32 +38,6 @@ private:
     NodeRB<k, value>* nil; // ponteiro para nil
     int counter_compare; // contador de comparações
     int counter_rotation; // contador de rotações
-
-    void bshow(NodeRB<k, value> *node, std::string heranca) {
-        if(node != nil && (node->left != nil || node->right != nil))
-            bshow(node->right , heranca + "r");
-
-        for(int i = 0; i < (int) heranca.size() - 1; i++)
-            std::cout << (heranca[i] != heranca[i + 1] ? "|   " : "    ");
-
-        if(heranca != "")
-            std::cout << (heranca.back() == 'r' ? "|-- " : "|-- ");
-        
-        if(node == nil){
-            std::cout << "#" << std::endl;
-            return;
-        }
-
-        std::cout << "(" << node->key.first << ", " << node->key.second << ")";
-        if(node->color == red){
-            std::cout << " R" << std::endl;
-        } else {
-            std::cout << " B" << std::endl;
-        }
-
-        if(node != nil && (node->left != nil || node->right != nil))
-            bshow(node->left, heranca + "l");
-    }
 
     // retorna o valor mínimo de uma sub-árvore de raiz node
     NodeRB<k, value> *minimum(NodeRB<k, value> *node){
@@ -95,11 +72,7 @@ public:
         counter_rotation = 0;
     }
 
-    void bshow(){
-        bshow(root, "");
-    }
-
-    // rotação a esquerda
+    // função que rotaciona a subárvore de node à esquerda
     void leftRotation(NodeRB<k, value>* x){
         NodeRB<k, value> *y = x->right;
         x->right = y->left;
@@ -120,7 +93,7 @@ public:
         x->parent = y;  
     }
 
-    // rotação a direita
+    // função que rotaciona a subárvore de node à direita
     void rightRotation(NodeRB<k, value>* x){
         NodeRB<k, value> *y = x->left;
         x->left = y->right;
@@ -141,6 +114,7 @@ public:
         x->parent = y; 
     }
 
+    // função que retorna se uma chave existe ou não na árvore
     bool search(k key){
         NodeRB<k, value>* aux = root;
 
@@ -164,6 +138,8 @@ public:
         return false;
     }
 
+    // função que retorna um valor associado uma chave
+    // ou insere a chave na árvore, caso ela não exista
     value& at(const k& key){
 
         NodeRB<k, value>* aux = root;
@@ -185,10 +161,37 @@ public:
             }
         }
 
-        throw out_of_range("key not found");
+        insert(make_pair(key, value {}));
+        aux = get(key);
+        return aux->key.second;
 
     }
 
+    // retorna o nó correspondente à uma chave passado por parâmetro
+    NodeRB<k, value>* get(const k& key){
+        NodeRB<k, value>* aux = root;
+
+        // enquanto eu nn chegar em uma folha (nil)
+        while(aux != nil){
+
+            // verificação do valor da chave para sabe pra onde deslocamos o aux
+            if(key < aux->key.first){
+                counter_compare++;
+                aux = aux->left;
+            } else if (key > aux->key.first){
+                counter_compare+=2;
+                aux = aux->right;
+            } else {
+                counter_compare+=2;
+                // caso em que a chave já existe na árvore
+                return aux;
+            }
+        }
+
+        throw out_of_range("key not found");
+    }
+
+    // função que ajeita a árvore em caso de desbalanceamento
     void RBfixup_insert(NodeRB<k, value>* node){
 
         while(node->parent->color == red){
@@ -255,9 +258,6 @@ public:
     }
 
     // função que insere um nó na árvore
-    // essa função não vai fazer a rotação por si só
-    // ela só implementa a lógica base de uma inserção em uma BST
-    // iterativa!!!
     void insert(pair<k, value> key){
         // ponteiros para o nó atual (aux) que estou verificando e seu pai (pai)
         NodeRB<k, value>* aux = root;
@@ -499,6 +499,7 @@ public:
     }
 
 
+    // destrutor
     ~RBTree(){
         root = clear(root);
     }

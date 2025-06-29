@@ -15,14 +15,14 @@ private:
 
     size_t m_numElements; // nº de elementos da tabela
     size_t m_tabSize; // tamanho da tabela
-    int counterCompare; // contador de comparações
+    mutable int counterCompare; // contador de comparações
     int counterRehash; // contador de rehash
 
     float m_maxLoad; // define o máximo fator de carga
 
     vector<list<pair<key, value>>> m_table; // vetor de lista de pares que representa a tabela
 
-    hash m_hash;
+    hash m_hash; // objeto da classe hash para gerenciar operações na tabela
 
     // retorna o próximo nº primo
     size_t getNextPrime(size_t size){
@@ -174,6 +174,7 @@ public:
 
         for(auto& p : m_table[slot]){
             if(p.first == k){
+                counterCompare++;
                 return p.second;
             }
         }

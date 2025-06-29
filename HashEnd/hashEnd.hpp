@@ -1,8 +1,10 @@
 // Alana Maria Sousa Augusto - 564976
 #ifndef HASHEND_HPP
 #define HASHEND_HPP
+
 #include<iostream>
 #include<vector>
+#include <cmath>
 
 using namespace std;
 
@@ -16,9 +18,10 @@ enum status{
 template<typename key, typename value>
 // struct para o tipo do vetor
 struct type{
-    pair<key, value> tuple;
-    status s;
+    pair<key, value> tuple; // chave do tipo par(typename key, typename value)
+    status s; // status de cada slot da hash
 
+    // construtor que define cada slot como empty inicialmente
     type(){
         s = EMPTY;
     }
@@ -27,14 +30,14 @@ struct type{
 template<typename key, typename value, typename hash = hash<key>>
 class hashEnd{
 private:
-    vector<type<key, value>> m_table;
+    vector<type<key, value>> m_table; // vetor para representar a tabela
     size_t m_tabSize; // tamanho da tabela
     size_t m_numElements; // nº de elementos
     mutable int counter_compare; // contador de comparações de chaves
     int counter_rehash; // contador de rehash
 
     float m_maxLoad; // define o máximo fator de carga
-    hash m_hash;
+    hash m_hash; // objeto da classe hash para gerenciar operações na tabela
 
     // retorna o próximo nº primo
     size_t getNextPrime(size_t size){
@@ -139,7 +142,7 @@ public:
             return true;
         }
         size_t i = 0;
-        int j;
+        size_t j;
         do{
             j = sondagem(k, i);
             if(m_table[j].s != ACTIVE){
@@ -167,7 +170,8 @@ public:
         }
     }
 
-    // aumenta o tamanho da tabela
+    // aumenta o tamanho da tabela e realoca os valores
+    // que já estavam previamente na tabela
     void rehash(size_t m){
         size_t new_tabSize = getNextPrime(m);
 
@@ -209,7 +213,7 @@ public:
 
     // muda o fator de carga máximo
     void set_max_load_factor(float lf){
-        if(lf <= 0){
+        if(lf <= 0 || lf > 0.75){
             throw out_of_range("invalid value");
         }
 
@@ -289,24 +293,10 @@ public:
         return counter_rehash;
     }
 
+    // destrutor
     ~hashEnd(){
         clear();
     }
-
-    /*
-    rehash
-    reserve
-    sobrecarregar operadores
-    métrica adicional
-    incrementar counter compare
-    clear
-    destrutor
-    avl e rb: arrumar insert/update
-    */
-
-    
-
-
 
 
 };

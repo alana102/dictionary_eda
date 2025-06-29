@@ -7,13 +7,15 @@
 using namespace std;
 
 template <typename k, typename value>
+// struct que define como é cada nó da árvore
 struct Node{
 
-    pair<k, value> key;
-    Node *right;
-    Node *left;
-    int height;
+    pair<k, value> key; // chave do tipo par<template chave, template valor> 
+    Node *right; // ponteiro para direita
+    Node *left; // ponteiro para esquerda
+    int height; // altura da árvore
 
+    // construtor do nó
     Node(pair<k, value> newKey, Node *r, Node *l){
         key = newKey;
         right = r;
@@ -25,14 +27,11 @@ struct Node{
 template<typename k, typename value>
 class AVL {
 private:
-    // raiz da árvore
-    Node<k, value>* root; 
-    // contador de comparações
-    int counter_compare;
-    // contador de rotações
-    int counter_rotations;
+    Node<k, value>* root; // raiz da árvore
+    int counter_compare; // contador de comparações
+    int counter_rotations; // contador de rotações
 
-    // função que limpa a árvore inteiro,
+    // função que limpa a árvore inteira,
     // apagando todos os nós recursivamente
     Node<k,value> *clear(Node<k, value>* node){
         if(node != nullptr){
@@ -158,23 +157,6 @@ private:
 
     }
 
-    // função que retorna o maior elemento 
-    Node<k, value> *maximum(Node<k, value> *node){
-        if(node != nullptr && node->right != nullptr){
-            return maximum(node->right);
-        } else {
-            return node;
-        }
-    }
-
-    // função que retorna o menor elemento 
-    Node<k, value> *minimum(Node<k, value> *node){
-        if(node != nullptr && node->left != nullptr){
-            return minimum(node->left);
-        } else {
-            return node;
-        }
-    }
 
     // função que rotaciona a subárvore de node à direita
     Node<k, value> *rotation_right(Node<k, value> *node){
@@ -206,8 +188,8 @@ private:
     }
 
     // função que conserta o balanço dos nós
-    // caso exista algum nó desbalanceado
-    Node<k, value> *fixupNode(Node<k, value> *p, pair<k, value> key){
+    // caso exista algum nó desbalanceado após a inserção
+    Node<k, value> *fixup_insertion(Node<k, value> *p, pair<k, value> key){
 
         p->height = 1 + max(height(p->left), height(p->right));
 
@@ -239,7 +221,7 @@ private:
 
     }
 
-    // função que insere um elemento na árvore
+    // função que insere um elemento na árvore recursivamente
     Node<k, value> *insert(Node<k, value>* node, pair<k, value> key){
 
         if(node == nullptr){
@@ -256,14 +238,17 @@ private:
             return node;
         }
 
-        node = fixupNode(node, key);
+        node = fixup_insertion(node, key);
 
         return node;
     }
 
-    value& at(Node<k, value>* node, const k& key){
+    // função que retorna o valor associado a uma chave na árvore
+    // caso a chave não existe, um novo nó é criado com a chave 
+    // e inserido na árvore 
+    value& at(Node<k, value>*& node, const k& key){
         if(node == nullptr){
-            node = new Node<k, value>(make_pair(key, value{}), nullptr, nullptr);
+            node = insert(node, make_pair(key, value{}));
             return node->key.second;
         }
 
@@ -295,62 +280,6 @@ private:
         }
     }
 
-    
-
-    // função que retorna o sucessor de um
-    // elemento na árvore
-    Node<k, value> *successor(Node<k, value> *node){
-        if(node->right != nullptr){
-            return minimum(node->right);
-        } else {
-            Node<k, value> *aux = root;
-            Node<k, value> *pai = nullptr;
-
-            while(aux != nullptr){
-                if(node->key.first < aux->key.first){
-                    counter_compare++;
-                    pai = aux;
-                    aux = aux->left;
-                } else if (node->key.first > aux->key.first){
-                    counter_compare+=2;
-                    aux = aux->right;
-                } else {
-                    counter_compare+=2;
-                    break;
-                }
-            }
-
-            return pai;
-        }
-    }
-
-    // função que retorna o predecessor de um
-    // elemento na árvore
-    Node<k, value> *predecessor(Node<k, value> *node){
-        if(node->left != nullptr){
-            return maximum(node->left);
-        } else {
-            Node<k, value> *aux = root;
-            Node<k, value> *pai = nullptr;
-
-            while(aux != nullptr){
-                if(node->key.first > aux->key.first){
-                    counter_compare++;
-                    pai = aux;
-                    aux = aux->right;
-                } else if (node->key.first < aux->key.first){
-                    counter_compare+=2;
-                    aux = aux->left;
-                } else {
-                    counter_compare+=2;
-                    break;
-                }
-            }
-
-            return pai;
-        }
-    }
-
     // função auxiliar que copia um nó em outro
     // auxilia na lógica da sobrecarga do operador de atribuição
     Node<k, value>* copiaNo(Node<k, value>* no){
@@ -367,36 +296,25 @@ private:
         return novo_no;
     }
 
-     void bshow(Node<k, value> *node, std::string heranca) {
-        if(node != nullptr && (node->left != nullptr || node->right != nullptr))
-            bshow(node->right , heranca + "r");
-        for(int i = 0; i < (int) heranca.size() - 1; i++)
-            std::cout << (heranca[i] != heranca[i + 1] ? "│   " : "    ");
-        if(heranca != "")
-            std::cout << (heranca.back() == 'r' ? "|---" : "|---");
-        if(node == nullptr){
-            std::cout << "#" << std::endl;
-            return;
+    // função que retorna o menor elemento 
+    Node<k, value> *minimum(Node<k, value> *node){
+        if(node != nullptr && node->left != nullptr){
+            return minimum(node->left);
+        } else {
+            return node;
         }
-        std::cout << "(" << node->key.first << ", " << node->key.second << ")" << std::endl;
-        if(node != nullptr && (node->left != nullptr || node->right != nullptr))
-            bshow(node->left, heranca + "l");
     }
-
 
 
 
 
 public:
 
+    // construtor vazio
     AVL(){
         root = nullptr;
         counter_compare = 0;
         counter_rotations = 0;
-    }
-
-    void bshow(){
-        bshow(root, "");
     }
 
     // função que insere um novo elemento na árvore
@@ -429,11 +347,13 @@ public:
         return size(root);
     }
 
+    // retorna o valor associado a uma chave
+    // ou insere a chave na árvore caso ela não exista
     value& at(const k &key){
         return at(root, key);
     }
 
-    // verifica se a árvore é vazio
+    // verifica se a árvore é vazia
     bool empty(){
         return root == nullptr;
     }
@@ -467,12 +387,14 @@ public:
         return *this;
     }
 
-    // função publica que limpa um conjunto
+    // função publica que limpa uma árvore
     // deletando todos os seus elementos
     void clear(){
         root = clear(root);
     }
 
+    // função que printa os nós da árvore em
+    // ordem crescente
     void print(){
         bool espaco = true;
         printInfix(root, espaco);
