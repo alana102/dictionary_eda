@@ -1,3 +1,4 @@
+// Alana Maria Sousa Augusto - 564976
 #ifndef RBTREE_HPP
 #define RBTREE_HPP
 #include<iostream>
@@ -140,17 +141,17 @@ public:
         x->parent = y; 
     }
 
-    bool search(pair<k, value> key){
+    bool search(k key){
         NodeRB<k, value>* aux = root;
 
         // enquanto eu nn chegar em uma folha (nil)
         while(aux != nil){
 
             // verificação do valor da chave para sabe pra onde deslocamos o aux
-            if(key.first < aux->key.first){
+            if(key < aux->key.first){
                 counter_compare++;
                 aux = aux->left;
-            } else if (key.first > aux->key.first){
+            } else if (key > aux->key.first){
                 counter_compare+=2;
                 aux = aux->right;
             } else {
@@ -161,6 +162,31 @@ public:
         }
 
         return false;
+    }
+
+    value& at(const k& key){
+
+        NodeRB<k, value>* aux = root;
+
+        // enquanto eu nn chegar em uma folha (nil)
+        while(aux != nil){
+
+            // verificação do valor da chave para sabe pra onde deslocamos o aux
+            if(key < aux->key.first){
+                counter_compare++;
+                aux = aux->left;
+            } else if (key > aux->key.first){
+                counter_compare+=2;
+                aux = aux->right;
+            } else {
+                counter_compare+=2;
+                // caso em que a chave já existe na árvore
+                return aux->key.second;
+            }
+        }
+
+        throw out_of_range("key not found");
+
     }
 
     void RBfixup_insert(NodeRB<k, value>* node){
@@ -250,6 +276,7 @@ public:
                 aux = aux->right;
             } else {
                 counter_compare+=2;
+                aux->key.second = key.second;
                 // caso em que a chave já existe na árvore
                 return;
             }
@@ -471,31 +498,6 @@ public:
         return contador;
     }
 
-    // verifica se uma chave está presente na árvore
-    bool contains(k chave){
-        if(root == nil){
-            return false;
-        }
-
-        stack<NodeRB<k, value>*> pilha;
-        pilha.push(root);
-
-        while(!pilha.empty()){
-            NodeRB<k, value>* aux = pilha.top();
-            pilha.pop();
-
-            if(aux != nil){
-                if(aux->key.first == chave){
-                    counter_compare++;
-                    return true;
-                }
-                pilha.push(aux->left);
-                pilha.push(aux->right);
-            }
-        }
-
-        return false;
-    }
 
     ~RBTree(){
         root = clear(root);

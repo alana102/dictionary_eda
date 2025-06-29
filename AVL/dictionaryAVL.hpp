@@ -56,7 +56,7 @@ public:
 
     void insert(key k, value v){
         if(avlTree.contains(k)){
-            //update(k, v);
+            update(k, v);
         }
         avlTree.insert(make_pair(k, v));
     }
@@ -68,9 +68,9 @@ public:
         avlTree.erase(make_pair(k, value {}));
     }
 
-    /*void update(key k, value v){
-
-    }*/
+    void update(key k, value v){
+        avlTree.insert(make_pair(k, v));
+    }
 
     // retorna quantas palavras estão presentes no dicionário
     int qntPalavras(){
@@ -88,6 +88,7 @@ public:
 
         cout << "Num de comparacoes de chaves: " << compare << "." << endl;
         cout << "Num de rotacoes: " << rotation << "." << endl;
+        cout << avlTree.at("alana") << endl;
     }
 
 };

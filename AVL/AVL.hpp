@@ -251,12 +251,33 @@ private:
             counter_compare+=2;
             node->right = insert(node->right, key);
         } else {
+            node->key.second = key.second;
             counter_compare+=2;
+            return node;
         }
 
         node = fixupNode(node, key);
 
         return node;
+    }
+
+    value& at(Node<k, value>* node, const k& key){
+        if(node == nullptr){
+            node = new Node<k, value>(make_pair(key, value{}), nullptr, nullptr);
+            return node->key.second;
+        }
+
+        if (key < node->key.first) {
+            counter_compare++;
+            return at(node->left, key);
+        } else if (key > node->key.first) {
+            counter_compare+=2;
+            return at(node->right, key);
+        } else {
+            counter_compare+=2;
+            return node->key.second;
+        }
+        
     }
 
     // função que escreve a árvore com seus
@@ -406,6 +427,10 @@ public:
     // chamando a sua versão privada
     int size(){
         return size(root);
+    }
+
+    value& at(const k &key){
+        return at(root, key);
     }
 
     // verifica se a árvore é vazio

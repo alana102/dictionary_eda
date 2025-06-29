@@ -1,6 +1,7 @@
 #include "AVL/dictionaryAVL.hpp"
 #include "RBTree/dictionaryRB.hpp"
 #include "HashEnc/dictionaryHashEnc.hpp"
+#include "HashEnd/dictionaryHashEnd.hpp"
 #include<iostream>
 using namespace std;
 
@@ -42,6 +43,18 @@ int main(){
     cout << "Qntd de palavras: " << dic3.qntPalavras() << "." << endl;
     dic3.printMetricas();
     dic3.contains("guilherme")? cout << "true" << endl : cout << "false" << endl;
+
+    cout << "hashEnd:" << endl; 
+    dictionaryHashEnd<string, int> dic4;
+    dic4.insert("alana", 2);
+    dic4.insert("alana", 3);
+    dic4.insert("clara", 4);
+    dic4.insert("guilherme", 4);
+    cout << "Qntd de palavras: " << dic4.qntPalavras() << "." << endl;
+    dic4.remove("guilherme");
+    cout << "Qntd de palavras: " << dic4.qntPalavras() << "." << endl;
+    dic4.printMetricas();
+    dic4.contains("guilherme")? cout << "true" << endl : cout << "false" << endl;
 
 
 

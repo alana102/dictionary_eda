@@ -1,5 +1,5 @@
- #ifndef HASHENCAVL
- #define HASHENCAVL
+ #ifndef HASHENC_DICTIONARY
+ #define HASHENC_DICTIONAY
 
  #include "hashEnc.hpp"
  #include<iostream>
@@ -56,7 +56,7 @@ public:
 
     void insert(key k, value v){
         if(hashTable.contains(k)){
-            //update(k, v);
+            update(k, v);
         }
         hashTable.add(k, v);
     }
@@ -68,9 +68,9 @@ public:
         hashTable.remove(k);
     }
 
-    /*void update(key k, value v){
-
-    }*/
+    void update(key k, value v){
+        hashTable[k] = v;
+    }
 
     // retorna quantas palavras estão presentes no dicionário
     int qntPalavras(){
@@ -88,6 +88,7 @@ public:
 
         cout << "Num de comparacoes de chaves: " << compare << "." << endl;
         cout << "Num de rehashs: " << rehash << "." << endl;
+        cout << hashTable["alana"] << endl;
     }
 
 };

@@ -56,23 +56,20 @@ public:
 
     // insere uma palavra e um valor associado a ela no dicionário
     void insert(key k, value v){
-        if(rbTree.contains(k)){
-            //update(k, v)
-        }
         rbTree.insert(make_pair(k, v));
     }
 
     // deleta uma palavra do dicionário
     void remove(key k){
-        if(!rbTree.contains(k)){
+        if(!rbTree.search(k)){
             throw out_of_range("key doesn't exist already");
         }
         rbTree.remove(k);
     }
 
-    /*void update(key k, value v){
-
-    }*/
+    void update(key k, value v){
+        rbTree.insert(make_pair(k, v));
+    }
 
     // retorna quantas palavras estão presentes no dicionário
     int qntPalavras(){
@@ -81,7 +78,7 @@ public:
 
     // verifica se uma palavra existe no dicionário
     bool contains(key k){
-        return rbTree.contains(k);
+        return rbTree.search(k);
     }
 
     // printa as métricas
@@ -91,6 +88,7 @@ public:
 
         cout << "Num de comparacoes de chaves: " << compare << "." << endl;
         cout << "Num de rotacoes: " << rotation << "." << endl;
+        cout << rbTree.at("alana") << endl;
     }
 
 };

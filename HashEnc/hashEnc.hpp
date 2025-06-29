@@ -1,3 +1,4 @@
+// Alana Maria Sousa Augusto - 564976
 #ifndef HASHENC_HPP
 #define HASHENC_HPP
 
@@ -12,14 +13,14 @@ class hashEnc{
 
 private:
 
-    size_t m_numElements;
-    size_t m_tabSize;
-    int counterCompare;
-    int counterRehash;
+    size_t m_numElements; // nº de elementos da tabela
+    size_t m_tabSize; // tamanho da tabela
+    int counterCompare; // contador de comparações
+    int counterRehash; // contador de rehash
 
-    float m_maxLoad;
+    float m_maxLoad; // define o máximo fator de carga
 
-    vector<list<pair<key, value>>> m_table;
+    vector<list<pair<key, value>>> m_table; // vetor de lista de pares que representa a tabela
 
     hash m_hash;
 
@@ -43,6 +44,7 @@ private:
         return size-2;
     }
 
+    // função de hashCode que determina para qual slot uma chave será mapeada
     size_t hashCode(const key& k) const {
         return m_hash(k) % m_tabSize;
     }
@@ -51,11 +53,17 @@ private:
 public:
 
     // construtor vazio
-    hashEnc(size_t size = 19){
+    hashEnc(size_t size = 10, float maxLoad = 1){
         m_numElements = 0;
         m_tabSize = getNextPrime(size);
         m_table.resize(m_tabSize);
-        m_maxLoad = 1;
+
+        if(maxLoad > 1){
+            m_maxLoad = 1;
+        } else {
+            m_maxLoad = maxLoad;
+        }
+
         counterCompare = 0;
         counterRehash = 0;
     }
@@ -115,7 +123,7 @@ public:
             counterRehash++;
         }
 
-         int slot = hashCode(k);
+         size_t slot = hashCode(k);
 
          // for-each (para cada elemento da lista do slot)
          for(auto p : m_table[slot]){
@@ -133,9 +141,9 @@ public:
 
      // verifica se uma chave k está presente na tabela
      bool contains(const key& k){
-        int slot = hashCode(k);
+        size_t slot = hashCode(k);
 
-        for(auto p : m_table[slot]){
+        for(auto& p : m_table[slot]){
             if(p.first == k){
                 counterCompare++;
                 return true;
@@ -147,36 +155,36 @@ public:
 
      // retorna a chave associada a chave k na tabela
      value& at(const key& k){
+        size_t slot = hashCode(k);
 
-        if(!contains(k)){
-            throw out_of_range("invalid key");
-        }
-
-        int slot = hash_code(k);
-
-        for(auto p : m_table[slot]){
+        for(auto& p : m_table[slot]){
             if(p.first == k){
                 counterCompare++;
                 return p.second;
             }
         }
 
+        throw out_of_range("invalid key");
+
      }
 
-    /**
-     * @brief Recebe um inteiro nao negativo m e faz com que o tamanho
-     * da tabela seja um numero primo maior ou igual a m.
-     * Se m for maior que o tamanho atual da tabela, um rehashing eh realizado.
-     * Se m for menor que o tamanho atual da tabela, a funcao nao tem nenhum efeito.
-     * Um rehashing eh uma operacao de reconstrucao da tabela:
-     * Todos os elementos no container sao rearranjados de acordo 
-     * com o seu valor de hashing dentro na nova tabela.
-     * Isto pode alterar a ordem de iteracao dos elementos dentro do container.
-     * Operacoes de rehashing sao realizadas automaticamente pelo container 
-     * sempre que load_factor() ultrapassa o m_max_load_factor.
-     * 
-     * @param m := o novo tamanho da tabela hash
-     */
+    // versão const da função at
+    const value& at(const key& k) const{
+        size_t slot = hashCode(k);
+
+        for(auto& p : m_table[slot]){
+            if(p.first == k){
+                return p.second;
+            }
+        }
+
+        throw out_of_range("invalid key");
+    }
+
+
+   
+    // aumenta o tamanho da tabela para o próximo número primo maior ou igual a m
+    // caso m seja maior que o tamanho original da tabela
     void rehash(size_t m){
       size_t new_tabSize = getNextPrime(m);
         if(new_tabSize > m_tabSize) {
@@ -195,12 +203,11 @@ public:
         }
     }
 
+    // função que faz um rehash a fim da tabela conter pelo menos n elementos
     void reserve(size_t n){
         if(n > m_tabSize*m_maxLoad){
             rehash(n/m_maxLoad);
             counterRehash++;
-        } else {
-            return;
         }
     }
 
@@ -210,7 +217,7 @@ public:
             return false;
         }
 
-        int slot = hashCode(k);
+        size_t slot = hashCode(k);
 
         for(auto it = m_table[slot].begin(); it != m_table[slot].end(); ++it) {
             if(it->first == k){
@@ -236,34 +243,26 @@ public:
         reserve(m_numElements);
     }
 
+    // retorna quantas comparações foram feitas
     int getCounterCompare(){
         return counterCompare;
     }
 
+    // retorna quantos rehashs foram feitos
     int getCounterRehash(){
         return counterRehash;
     }
-
-    /**
-     * @brief Sobrecarga do operador de indexacao.
-     * Se k corresponder a chave de um elemento na tabela, a funcao
-     * retorna uma referencia ao seu valor mapeado. Caso contrario, 
-     * se k nao corresponder a chave de nenhum elemento na tabela, 
-     * a funcao insere um novo elemento com essa chave e retorna um
-     * referencia ao seu valor mapeado. Observe que isso sempre aumenta 
-     * o tamanho da tabela em um, mesmo se nenhum valor mapeado for atribuido 
-     * ao elemento (o elemento eh construido usando seu construtor padrao).
-     * 
-     * @param k := chave
-     * @return Value& := valor associado a chave
-     */
+ 
+    // sobrecarga do operador colchete
+    // se k for uma chave da tabela, só retorna seu valor referenciado
+    // se k não existir na tabela, k é inserido na tabela
     value& operator[](const key& k){
         if(load_factor() >= m_maxLoad){
             rehash(2*m_tabSize);
             counterRehash++;
         }
         size_t slot = hashCode(k);
-        for (auto& par : m_table(slot)){
+        for (auto& par : m_table[slot]){
            if(par.first == k){
               counterCompare++;
               return par.second;
@@ -274,22 +273,11 @@ public:
         return m_table[slot].back().second;
     }
 
-
-    /**
-     * @brief Versao const da sobrecarga do operador de indexacao.
-     * Se k corresponder a chave de um elemento na tabela, a funcao
-     * retorna uma referencia ao seu valor mapeado. Caso contrario, 
-     * se k nao corresponder a chave de nenhum elemento na tabela, 
-     * a funcao lanca uma out_of_range exception.
-     * 
-     * @param k := chave
-     * @return Value& := valor associado a chave
-     */
+    // versão const da sobrecarga do operador colchete
+    // retorna o valor associado a chave k
     const value& operator[](const key& k) const{
         return at(k);
-    }
-
-     
+    }   
 
      // destrutor
     ~hashEnc(){
