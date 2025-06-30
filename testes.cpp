@@ -3,11 +3,9 @@
 #include "HashEnc/dictionaryHashEnc.hpp"
 #include "HashEnd/dictionaryHashEnd.hpp"
 #include<iostream>
-#include<chrono>
 #include<vector>
 
 using namespace std;
-using namespace chrono;
 
 // arquivo de teste
 
@@ -44,6 +42,8 @@ int main(){
     dic1.printDic();
     dic1.printMetricas();
     dic1.contains("guilherme")? cout << "true" << endl : cout << "false" << endl;
+    dic1.clear();
+    cout << "Qntd de palavras: " << dic1.qntPalavras() << "." << endl;
     cout << "\n";
 
     cout << "RB:" << endl;
@@ -59,7 +59,10 @@ int main(){
     dic2.printDic();
     dic2.printMetricas();
     dic2.contains("guilherme")? cout << "true" << endl : cout << "false" << endl;
+    dic2.clear();
+    cout << "Qntd de palavras: " << dic2.qntPalavras() << "." << endl;
     cout << "\n";
+
 
     cout << "hashEnc:" << endl;
     dictionaryHashEnc<string, int> dic3(vec);
@@ -72,6 +75,8 @@ int main(){
     cout << "Qntd de palavras: " << dic3.qntPalavras() << "." << endl;
     dic3.printMetricas();
     dic3.contains("guilherme")? cout << "true" << endl : cout << "false" << endl;
+    dic3.clear();
+    cout << "Qntd de palavras: " << dic3.qntPalavras() << "." << endl;
     cout << "\n";
 
     cout << "hashEnd:" << endl; 
@@ -85,6 +90,8 @@ int main(){
     cout << "Qntd de palavras: " << dic4.qntPalavras() << "." << endl;
     dic4.printMetricas();
     dic4.contains("guilherme")? cout << "true" << endl : cout << "false" << endl;
+    dic4.clear();
+    cout << "Qntd de palavras: " << dic4.qntPalavras() << "." << endl;
 
 
 

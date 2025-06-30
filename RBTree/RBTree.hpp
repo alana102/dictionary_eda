@@ -71,7 +71,7 @@ private:
             node->right = clear(node->right);
             delete node;
         }
-        return nullptr;
+        return nil;
     }
 
     
@@ -521,6 +521,10 @@ public:
         return contador;
     }
 
+    // função pública que limpa a árvore toda
+    void clear(){
+        root = clear(root);
+    }
 
     // destrutor
     ~RBTree(){

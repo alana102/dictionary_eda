@@ -202,14 +202,14 @@ public:
         }
     }
 
-    // deleta todos os elementos da tabela
+    // deleta todos os elementos da tabela, marcando todas as
+    // posições da hash como vazia
     void clear(){
         for(size_t i = 0; i < m_tabSize; i++){
             if(m_table[i].s == ACTIVE){
-                hash_delete(m_table[i].tuple.first);
+                m_table[i].s = EMPTY;
             }
         }
-
         m_numElements = 0;
     }
 
