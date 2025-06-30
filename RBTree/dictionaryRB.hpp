@@ -58,7 +58,7 @@ public:
     }
 
     // retorna o valor associado a uma palavra
-    value& get(const key& k){
+    value& at(const key& k){
         return rbTree->at(k);
     }
 
@@ -75,6 +75,11 @@ public:
     // limpa o dicionário
     void clear(){
         rbTree->clear();
+    }
+
+    // printa todas as palavras do dicionário em ordem crescente
+    void printDic(){
+        rbTree->print();
     }
 
     // printa as métricas de comparação e de rotação

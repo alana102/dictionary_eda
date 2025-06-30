@@ -29,8 +29,8 @@ public:
     */
 
     // construtor vazio
-    dictionaryHashEnc(size_t size = 10, float maxLoad = 1){
-        hashTable = new hashEnc<key, value, hash>(size, maxLoad);
+    dictionaryHashEnc(){
+        hashTable = new hashEnc<key, value, hash>();
     }
 
     // construtor que recebe como parâmetro uma lista de palavras

@@ -28,8 +28,8 @@ public:
     */
 
     // construtor vazio
-    dictionaryHashEnd(size_t size = 10, float maxLoad = 0.75){
-        hashTable = new hashEnd<key, value, hash>(size, maxLoad);
+    dictionaryHashEnd(){
+        hashTable = new hashEnd<key, value, hash>();
         
     }
 

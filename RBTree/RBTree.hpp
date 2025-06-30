@@ -48,6 +48,21 @@ private:
         }
     }
 
+    // função que escreve a árvore com seus
+    // elementos em ordem crescente
+    void printInfix(NodeRB<k, value>* node, bool& espaco) {
+        if (node != nil) {
+            printInfix(node->left, espaco);
+            if (espaco) {
+                cout << "(" << node->key.first << ", " << node->key.second <<")";
+                espaco = false;
+            } else {
+                cout << ", " << "(" << node->key.first << ", " << node->key.second <<")";
+            }
+            printInfix(node->right, espaco);
+        }
+    }
+
     // função que limpa a árvore inteiro,
     // apagando todos os nós recursivamente
     NodeRB<k,value> *clear(NodeRB<k, value>* node){
@@ -471,6 +486,14 @@ public:
     // retorna a quantidade de rotações feitas
     int getCounterRotation(){
         return counter_rotation;
+    }
+
+    // função que printa os nós da árvore em
+    // ordem crescente
+    void print(){
+        bool espaco = true;
+        printInfix(root, espaco);
+        cout << endl;
     }
 
     // função que retorna quantos nós a árvore possui

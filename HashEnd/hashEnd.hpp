@@ -62,7 +62,7 @@ private:
     // função de sondagem baseada em hashing duplo
     size_t sondagem(const key& k, int i) const{ 
         size_t hash1 = m_hash(k) % m_tabSize;
-        size_t hash2 = 1 + (m_hash(k) % m_tabSize-1);
+        size_t hash2 = 1 + (m_hash(k) % (m_tabSize-1));
         return (hash1 + (i * hash2)) % m_tabSize;
     }
 
@@ -136,6 +136,8 @@ public:
             counter_rehash++;
         }
 
+        
+
         int m = aux_hash_search(k);
         if(m != -1){
             m_table[m].tuple.second = v;
@@ -153,7 +155,7 @@ public:
                 return true;
             }
             i++;
-        } while (i < m_tabSize);
+        } while (i != m_tabSize);
 
         return false;
     }

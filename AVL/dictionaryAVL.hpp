@@ -68,13 +68,18 @@ public:
     }
 
     // retorna o valor associado a uma chave
-    value& get(const key& k){
+    value& at(const key& k){
         return avlTree->at(k);
     }
 
     // limpa todo o dicionário
     void clear(){
         avlTree->clear();
+    }
+
+    // printa todas as palavras do dicionário em ordem alfabética
+    void printDic(){
+        avlTree->print();
     }
 
     // printa as métricas de comparação e de rotação
