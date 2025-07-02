@@ -235,7 +235,7 @@ public:
 
     // muda o fator de carga máximo
     void set_max_load_factor(float lf){
-        if(lf <= 0){
+        if(lf <= 0 || lf > 1){
             throw out_of_range("invalid value");
         }
 
@@ -283,6 +283,8 @@ public:
      // destrutor
     ~hashEnc(){
         clear();
+        counterCompare = 0;
+        counterRehash = 0;
     }
 
 

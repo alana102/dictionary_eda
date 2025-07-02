@@ -298,6 +298,8 @@ public:
     // destrutor
     ~hashEnd(){
         clear();
+        counter_compare = 0;
+        counter_rehash = 0;
     }
 
 

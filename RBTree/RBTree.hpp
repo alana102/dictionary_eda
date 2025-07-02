@@ -529,6 +529,8 @@ public:
     // destrutor
     ~RBTree(){
         root = clear(root);
+        counter_compare = 0;
+        counter_rotation = 0;
     }
 };
 

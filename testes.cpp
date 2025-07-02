@@ -26,7 +26,6 @@ int main(){
     vec.push_back(make_pair("deus", 3));
     vec.push_back(make_pair("papel", 3));
 
-
     cout << "AVL:" << endl;
     
     dictionaryAVL<string, int> dic1(vec);
@@ -92,8 +91,6 @@ int main(){
     dic4.contains("guilherme")? cout << "true" << endl : cout << "false" << endl;
     dic4.clear();
     cout << "Qntd de palavras: " << dic4.qntPalavras() << "." << endl;
-
-
 
 
 }

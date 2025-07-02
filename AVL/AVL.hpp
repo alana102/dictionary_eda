@@ -405,6 +405,8 @@ public:
     // destrutor
     ~AVL(){
         root = clear(root);
+        counter_compare = 0;
+        counter_rotations = 0;
     }
 
     
