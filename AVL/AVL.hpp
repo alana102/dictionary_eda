@@ -195,27 +195,35 @@ private:
 
         int bal = balance(p);
 
-        if(bal < -1 && key.first < p->left->key.first){
-            counter_compare++;
-            counter_rotations++;
-            return rotation_right(p);
-        } else if(bal < -1 && key.first > p->left->key.first){
-            counter_compare+=2;
-            p->left = rotation_left(p->left);
-            counter_rotations+=2;
-            return rotation_right(p);  
-        } else if(bal > 1 && key.first > p->right->key.first){
-            counter_compare+=3;
-            counter_rotations++;
-            return rotation_left(p);
-        } else if(bal > 1 && key.first < p->right->key.first){
-            counter_compare+=4;
-            p->right = rotation_right(p->right);
-            counter_rotations+=2;
-            return rotation_left(p);  
-        } else {
-            counter_compare+=4;
+        if (bal < -1){
+            if(key.first < p->left->key.first){
+                counter_compare++;
+                counter_rotations++;
+                return rotation_right(p);
+            } else if (key.first > p->left->key.first){
+                counter_compare+=2;
+                p->left = rotation_left(p->left);
+                counter_rotations+=2;
+                return rotation_right(p); 
+            } else {
+                counter_compare+=2;
+            }
         }
+
+        if(bal > 1) {
+            if(key.first > p->right->key.first) {
+                counter_compare++;
+                counter_rotations++;
+                return rotation_left(p);
+            } else if (key.first < p->right->key.first) {
+                counter_compare+=2;
+                p->right = rotation_right(p->right);
+                counter_rotations+=2;
+                return rotation_left(p); 
+            } else {
+                counter_compare +=2;
+            }
+        } 
         
         return p;
 

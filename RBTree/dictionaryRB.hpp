@@ -91,6 +91,10 @@ public:
         cout << "Num de rotacoes: " << rotation << "." << endl;
     }
 
+    ~dictionaryRB(){
+        clear();
+    }
+
 };
 
 #endif

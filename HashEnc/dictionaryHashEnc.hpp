@@ -1,6 +1,6 @@
  // Alana Maria Sousa Augusto - 564976
  #ifndef HASHENC_DICTIONARY
- #define HASHENC_DICTIONAY
+ #define HASHENC_DICTIONARY
 
  #include "hashEnc.hpp"
  #include<iostream>
@@ -83,6 +83,11 @@ public:
         hashTable->clear();
     }
 
+    // printa todos os valores do dicionário
+    void printDic(){
+        hashTable->print();
+    }
+
     // printa as metricas de comparação e de rehash
     void printMetricas(){
         int compare = hashTable->getCounterCompare();
@@ -90,6 +95,10 @@ public:
 
         cout << "Num de comparacoes de chaves: " << compare << "." << endl;
         cout << "Num de rehashs: " << rehash << "." << endl;
+    }
+
+    ~dictionaryHashEnc(){
+        clear();
     }
 
 };

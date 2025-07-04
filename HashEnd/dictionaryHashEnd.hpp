@@ -83,6 +83,11 @@ public:
         hashTable->clear();
     }
 
+    // printa todos os valores do dicionário
+    void printDic(){
+        hashTable->print();
+    }
+
     // printa as metricas de comparação e de rehash
     void printMetricas(){
         int compare = hashTable->getCounterCompare();
@@ -90,6 +95,10 @@ public:
 
         cout << "Num de comparacoes de chaves: " << compare << "." << endl;
         cout << "Num de rehashs: " << rehash << "." << endl;
+    }
+
+    ~dictionaryHashEnd(){
+        clear();
     }
 
 };

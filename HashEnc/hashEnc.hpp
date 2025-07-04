@@ -244,6 +244,16 @@ public:
         reserve(m_numElements);
     }
 
+    // printa todos os valores da hash
+    void print(){
+        for (size_t i = 0; i < m_table.size(); ++i) {
+            for (auto& p : m_table[i]) {
+                std::cout << "(" << p.first << ", " << p.second << ") ";
+            }
+        }
+        cout << endl;
+    }
+
     // retorna quantas comparações foram feitas
     int getCounterCompare(){
         return counterCompare;

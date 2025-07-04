@@ -11,6 +11,7 @@ using namespace std;
 
 int main(){
 
+    // vetor para passar como parâmetro no construtor
     vector<pair<string, int>> vec;
     vec.push_back(make_pair("casa", 3));
     vec.push_back(make_pair("vaga", 3));
@@ -26,8 +27,8 @@ int main(){
     vec.push_back(make_pair("deus", 3));
     vec.push_back(make_pair("papel", 3));
 
+    // testes AVL
     cout << "AVL:" << endl;
-    
     dictionaryAVL<string, int> dic1(vec);
     dic1.insert("alana", 2);
     dic1.insert("alana", 3);
@@ -45,6 +46,7 @@ int main(){
     cout << "Qntd de palavras: " << dic1.qntPalavras() << "." << endl;
     cout << "\n";
 
+    // testes Rubro-Negra
     cout << "RB:" << endl;
     dictionaryRB<string, int> dic2(vec);
     dic2.insert("alana", 2);
@@ -62,7 +64,7 @@ int main(){
     cout << "Qntd de palavras: " << dic2.qntPalavras() << "." << endl;
     cout << "\n";
 
-
+    // testes Hash por Encadeamento Exterior
     cout << "hashEnc:" << endl;
     dictionaryHashEnc<string, int> dic3(vec);
     dic3.insert("alana", 2);
@@ -70,14 +72,17 @@ int main(){
     dic3.insert("clara", 4);
     dic3.insert("guilherme", 4);
     cout << "Qntd de palavras: " << dic3.qntPalavras() << "." << endl;
+    dic3.printDic();
     dic3.remove("guilherme");
     cout << "Qntd de palavras: " << dic3.qntPalavras() << "." << endl;
+    dic3.printDic();
     dic3.printMetricas();
     dic3.contains("guilherme")? cout << "true" << endl : cout << "false" << endl;
     dic3.clear();
     cout << "Qntd de palavras: " << dic3.qntPalavras() << "." << endl;
     cout << "\n";
 
+    // testes Hash por Endereçamento Aberto
     cout << "hashEnd:" << endl; 
     dictionaryHashEnd<string, int> dic4(vec);
     dic4.insert("alana", 2);
@@ -85,8 +90,10 @@ int main(){
     dic4.insert("clara", 4);
     dic4.insert("guilherme", 4);
     cout << "Qntd de palavras: " << dic4.qntPalavras() << "." << endl;
+    dic4.printDic();
     dic4.remove("guilherme");
     cout << "Qntd de palavras: " << dic4.qntPalavras() << "." << endl;
+    dic4.printDic();
     dic4.printMetricas();
     dic4.contains("guilherme")? cout << "true" << endl : cout << "false" << endl;
     dic4.clear();

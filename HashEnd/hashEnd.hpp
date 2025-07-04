@@ -285,6 +285,17 @@ public:
  
     }  
 
+    // printa todos os valores da hash
+    void print(){
+        for(size_t i = 0; i < m_table.size(); i++){
+            if(m_table[i].s == ACTIVE){
+                cout << "(" << m_table[i].tuple.first << ", " << m_table[i].tuple.second << ") ";
+            }
+        }
+
+        cout << endl;
+    }
+
     // retorna quantas comparações foram feitas
     int getCounterCompare(){
         return counter_compare;
