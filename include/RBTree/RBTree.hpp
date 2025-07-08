@@ -3,6 +3,7 @@
 #define RBTREE_HPP
 #include<iostream>
 #include<stack>
+#include "../compare.hpp"
 
 using namespace std;
 
@@ -38,6 +39,9 @@ private:
     NodeRB<k, value>* nil; // ponteiro para nil
     int counter_compare; // contador de comparações
     int counter_rotation; // contador de rotações
+
+    // objeto que compara strings com acento
+    CollatorCompare<k> compare;
 
     // retorna o valor mínimo de uma sub-árvore de raiz node
     NodeRB<k, value> *minimum(NodeRB<k, value> *node){
@@ -137,10 +141,10 @@ public:
         while(aux != nil){
 
             // verificação do valor da chave para sabe pra onde deslocamos o aux
-            if(key < aux->key.first){
+            if(compare(key, aux->key.first)){
                 counter_compare++;
                 aux = aux->left;
-            } else if (key > aux->key.first){
+            } else if (compare(aux->key.first, key)){
                 counter_compare+=2;
                 aux = aux->right;
             } else {
@@ -163,10 +167,10 @@ public:
         while(aux != nil){
 
             // verificação do valor da chave para sabe pra onde deslocamos o aux
-            if(key < aux->key.first){
+            if(compare(key, aux->key.first)){
                 counter_compare++;
                 aux = aux->left;
-            } else if (key > aux->key.first){
+            } else if (compare(aux->key.first, key)){
                 counter_compare+=2;
                 aux = aux->right;
             } else {
@@ -190,10 +194,10 @@ public:
         while(aux != nil){
 
             // verificação do valor da chave para sabe pra onde deslocamos o aux
-            if(key < aux->key.first){
+            if(compare(key, aux->key.first)){
                 counter_compare++;
                 aux = aux->left;
-            } else if (key > aux->key.first){
+            } else if (compare(aux->key.first, key)){
                 counter_compare+=2;
                 aux = aux->right;
             } else {
@@ -283,10 +287,10 @@ public:
             // vamos deslocar os ponteiros, então pai recebe o que antes era o nó atual
             pai = aux;
             // verificação do valor da chave para sabe pra onde deslocamos o aux
-            if(key.first < aux->key.first){
+            if(compare(key.first, aux->key.first)){
                 counter_compare++;
                 aux = aux->left;
-            } else if (key.first > aux->key.first){
+            } else if (compare(aux->key.first, key.first)){
                 counter_compare+=2;
                 aux = aux->right;
             } else {
@@ -313,7 +317,7 @@ public:
             z->parent = pai;
 
             // verifica de que lado do pai inserimos o novo nó
-            if(key.first < pai->key.first){
+            if(compare(key.first, pai->key.first)){
                 counter_compare++;
                 pai->left = z;
             } else {
@@ -331,7 +335,7 @@ public:
     void remove(k keyremove){
         NodeRB<k, value>* p = root;
         while(p != nil && p->key.first != keyremove){
-            if(keyremove < p->key.first){
+            if(compare(keyremove, p->key.first)){
                 counter_compare++;
                 p = p->left;
             } else {

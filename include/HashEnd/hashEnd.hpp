@@ -5,6 +5,7 @@
 #include<iostream>
 #include<vector>
 #include <cmath>
+#include "../compare.hpp"
 
 using namespace std;
 
@@ -35,6 +36,9 @@ private:
     size_t m_numElements; // nº de elementos
     mutable int counter_compare; // contador de comparações de chaves
     int counter_rehash; // contador de rehash
+
+    // objeto que compara strings com acento
+    CollatorCompare<key> compare;
 
     float m_maxLoad; // define o máximo fator de carga
     hash m_hash; // objeto da classe hash para gerenciar operações na tabela
@@ -110,9 +114,11 @@ public:
         int j;
         do{
             j = sondagem(k, i);
-            if(m_table[j].s == ACTIVE && m_table[j].tuple.first == k){
+            if(m_table[j].s == ACTIVE){
                 counter_compare++;
-                return j;
+                if(!compare(m_table[j].tuple.first, k) && !compare(k, m_table[j].tuple.first)){
+                    return j;
+                }
             }
             i = i + 1;
         } while (m_table[j].s != EMPTY && i < m_tabSize);
@@ -240,10 +246,12 @@ public:
 
         do{
             j = sondagem(k, i);
-            if(m_table[j].s == ACTIVE && m_table[j].tuple.first == k){
+            if(m_table[j].s == ACTIVE){
                 counter_compare++;
-                aux = j;
-                break;
+                if(!compare(m_table[j].tuple.first, k) && !compare(k, m_table[j].tuple.first)){
+                    aux = j;
+                    break;
+                }
             }
             i = i + 1;
         } while (m_table[j].s != EMPTY && i < m_tabSize);
@@ -269,10 +277,12 @@ public:
 
         do{
             j = sondagem(k, i);
-            if(m_table[j].s == ACTIVE && m_table[j].tuple.first == k){
+            if(m_table[j].s == ACTIVE){
                 counter_compare++;
-                aux = j;
-                break;
+                if(!compare(m_table[j].tuple.first, k) && !compare(k, m_table[j].tuple.first)){
+                    aux = j;
+                    break;
+                }
             }
             i = i + 1;
         } while (m_table[j].s != EMPTY && i < m_tabSize);

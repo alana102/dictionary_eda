@@ -5,6 +5,7 @@
 #include<vector>
 #include<list>
 #include<cmath>
+#include "../compare.hpp"
 
 using namespace std;
 
@@ -19,6 +20,9 @@ private:
     int counterRehash; // contador de rehash
 
     float m_maxLoad; // define o máximo fator de carga
+
+    // objeto que compara strings com acento
+    CollatorCompare<key> compare;
 
     vector<list<pair<key, value>>> m_table; // vetor de lista de pares que representa a tabela
 
@@ -127,8 +131,8 @@ public:
 
          // for-each (para cada elemento da lista do slot)
          for(auto p : m_table[slot]){
-            if(p.first == k){
-                counterCompare++;
+            counterCompare++;
+            if(!compare(p.first, k) && !compare(k, p.first)){
                 return false;
             }
          }
@@ -144,8 +148,8 @@ public:
         size_t slot = hashCode(k);
 
         for(auto& p : m_table[slot]){
-            if(p.first == k){
-                counterCompare++;
+            counterCompare++;
+            if(!compare(p.first, k) && !compare(k, p.first)){
                 return true;
             }
         }
@@ -158,8 +162,8 @@ public:
         size_t slot = hashCode(k);
 
         for(auto& p : m_table[slot]){
-            if(p.first == k){
-                counterCompare++;
+            counterCompare++;
+            if(!compare(p.first, k) && !compare(k, p.first)){
                 return p.second;
             }
         }
@@ -173,8 +177,8 @@ public:
         size_t slot = hashCode(k);
 
         for(auto& p : m_table[slot]){
-            if(p.first == k){
-                counterCompare++;
+            counterCompare++;
+            if(!compare(p.first, k) && !compare(k, p.first)){
                 return p.second;
             }
         }
@@ -221,8 +225,8 @@ public:
         size_t slot = hashCode(k);
 
         for(auto it = m_table[slot].begin(); it != m_table[slot].end(); ++it) {
-            if(it->first == k){
-                counterCompare++;
+            counterCompare++;
+            if(!compare(it->first, k) && !compare(k, it->first)){
                 m_table[slot].erase(it);
                 m_numElements--;
                 return true;
@@ -274,10 +278,10 @@ public:
         }
         size_t slot = hashCode(k);
         for (auto& par : m_table[slot]){
-           if(par.first == k){
-              counterCompare++;
-              return par.second;
-           }
+            counterCompare++;
+            if(!compare(par.first, k) && !compare(k, par.first)){
+                return par.second;
+            }
         }
         m_table[slot].push_back({k, value{}});
         m_numElements++;

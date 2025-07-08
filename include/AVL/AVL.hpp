@@ -3,6 +3,7 @@
 #define AVL_HPP
 #include<vector>
 #include<iostream>
+#include "../compare.hpp"
 
 using namespace std;
 
@@ -30,6 +31,9 @@ private:
     Node<k, value>* root; // raiz da árvore
     int counter_compare; // contador de comparações
     int counter_rotations; // contador de rotações
+
+    // objeto que compara strings com acento
+    CollatorCompare<k> compare;
 
     // função que limpa a árvore inteira,
     // apagando todos os nós recursivamente
@@ -100,19 +104,25 @@ private:
         if (node == nullptr){
             return nullptr;
         } 
-        if (key.first < node->key.first){
+        if (compare(key.first, node->key.first)){
             counter_compare++;
             node->left = remove(node->left, key);
-        } else if (key.first > node->key.first) {
+        } else if (compare(node->key.first, key.first)) {
             counter_compare+=2;
             node->right = remove(node->right, key);
-        } else if (node->right == nullptr){
-            Node<k, value> *filho = node->left;
-            delete node;
-            return filho;
         } else {
             counter_compare+=2;
-            node->right = remove_successor(node, node->right);
+            if (node->left == nullptr) {
+                Node<k, value>* filho = node->right;
+                delete node;
+                return filho;
+            } else if (node->right == nullptr) {
+                Node<k, value>* filho = node->left;
+                delete node;
+                return filho;
+            } else {
+                node->right = remove_successor(node, node->right);
+            }
         }
 
         node = fixup_deletion(node);
@@ -143,14 +153,14 @@ private:
             return nullptr;
         }
 
-        if(node->key.first == key){
-            counter_compare++;
-            return node;
-        } else if (key < node->key.first) {
+        if(!compare(node->key.first, key) && !compare(key, node->key.first)){
             counter_compare+=2;
+            return node;
+        } else if (compare(key, node->key.first)) {
+            counter_compare+=3;
             return get(node->left, key);
         } else {
-            counter_compare+=2;
+            counter_compare+=3;
             return get(node->right, key);
         } 
 
@@ -196,11 +206,11 @@ private:
         int bal = balance(p);
 
         if (bal < -1){
-            if(key.first < p->left->key.first){
+            if(compare(key.first, p->left->key.first)){
                 counter_compare++;
                 counter_rotations++;
                 return rotation_right(p);
-            } else if (key.first > p->left->key.first){
+            } else if (compare(p->left->key.first, key.first)){
                 counter_compare+=2;
                 p->left = rotation_left(p->left);
                 counter_rotations+=2;
@@ -211,11 +221,11 @@ private:
         }
 
         if(bal > 1) {
-            if(key.first > p->right->key.first) {
+            if(compare(p->right->key.first, key.first)) {
                 counter_compare++;
                 counter_rotations++;
                 return rotation_left(p);
-            } else if (key.first < p->right->key.first) {
+            } else if (compare(key.first, p->right->key.first)) {
                 counter_compare+=2;
                 p->right = rotation_right(p->right);
                 counter_rotations+=2;
@@ -234,10 +244,10 @@ private:
 
         if(node == nullptr){
             return new Node<k, value>(key, nullptr, nullptr);
-        } else if (key.first < node->key.first) {
+        } else if (compare(key.first, node->key.first)) {
             counter_compare++;
             node->left = insert(node->left, key);
-        } else if (key.first > node->key.first) {
+        } else if (compare(node->key.first, key.first)) {
             counter_compare+=2;
             node->right = insert(node->right, key);
         } else {
@@ -260,10 +270,10 @@ private:
             return node->key.second;
         }
 
-        if (key < node->key.first) {
+        if (compare(key, node->key.first)) {
             counter_compare++;
             return at(node->left, key);
-        } else if (key > node->key.first) {
+        } else if (compare(node->key.first, key)) {
             counter_compare+=2;
             return at(node->right, key);
         } else {
