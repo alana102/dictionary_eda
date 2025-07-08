@@ -1,7 +1,7 @@
-#include "include/AVL/dictionaryAVL.hpp"
-#include "include/RBTree/dictionaryRB.hpp"
-#include "include/HashEnc/dictionaryHashEnc.hpp"
-#include "include/HashEnd/dictionaryHashEnd.hpp"
+#include "../include/AVL/dictionaryAVL.hpp"
+#include "../include/RBTree/dictionaryRB.hpp"
+#include "../include/HashEnc/dictionaryHashEnc.hpp"
+#include "../include/HashEnd/dictionaryHashEnd.hpp"
 #include<iostream>
 #include<vector>
 
@@ -13,19 +13,20 @@ int main(){
 
     // vetor para passar como parâmetro no construtor
     vector<pair<string, int>> vec;
-    vec.push_back(make_pair("casa", 3));
-    vec.push_back(make_pair("vaga", 3));
-    vec.push_back(make_pair("amada", 3));
-    vec.push_back(make_pair("vida", 3));
-    vec.push_back(make_pair("mundo", 3));
-    vec.push_back(make_pair("tomada", 3));
-    vec.push_back(make_pair("gente", 3));
-    vec.push_back(make_pair("povo", 3));
-    vec.push_back(make_pair("oculos", 3));
-    vec.push_back(make_pair("esmalte", 3));
-    vec.push_back(make_pair("jesus", 3));
-    vec.push_back(make_pair("deus", 3));
-    vec.push_back(make_pair("papel", 3));
+    vec.push_back(make_pair("coração", 3));
+    vec.push_back(make_pair("fácil", 3));
+    vec.push_back(make_pair("água", 3));
+    vec.push_back(make_pair("pássaro", 3));
+    vec.push_back(make_pair("máquina", 3));
+    vec.push_back(make_pair("órgão", 3));
+    vec.push_back(make_pair("lâmpada", 3));
+    vec.push_back(make_pair("público", 3));
+    vec.push_back(make_pair("índice", 3));
+    vec.push_back(make_pair("próximo", 3));
+    vec.push_back(make_pair("júnior", 3));
+    vec.push_back(make_pair("difícil", 3));
+    vec.push_back(make_pair("papéis", 3));
+
 
     // testes AVL
     cout << "AVL:" << endl;
