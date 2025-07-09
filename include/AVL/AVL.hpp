@@ -285,16 +285,11 @@ private:
 
     // função que escreve a árvore com seus
     // elementos em ordem crescente
-    void printInfix(Node<k, value>* node, bool& espaco) {
+    void printInfix(Node<k, value>* node) {
         if (node != nullptr) {
-            printInfix(node->left, espaco);
-            if (espaco) {
-                cout << "(" << node->key.first << ", " << node->key.second <<")";
-                espaco = false;
-            } else {
-                cout << ", " << "(" << node->key.first << ", " << node->key.second <<")";
-            }
-            printInfix(node->right, espaco);
+            printInfix(node->left);
+            cout << "(" << node->key.first << ", " << node->key.second <<")" << endl;
+            printInfix(node->right);
         }
     }
 
@@ -414,8 +409,7 @@ public:
     // função que printa os nós da árvore em
     // ordem crescente
     void print(){
-        bool espaco = true;
-        printInfix(root, espaco);
+        printInfix(root);
         cout << endl;
     }
 

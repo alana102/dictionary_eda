@@ -27,6 +27,15 @@ int main(){
     vec.push_back(make_pair("difícil", 3));
     vec.push_back(make_pair("papéis", 3));
 
+    vector<pair<int, int>> vecInt;
+
+    vecInt.push_back(make_pair(4, 2));
+    vecInt.push_back(make_pair(9, 2));
+    vecInt.push_back(make_pair(1, 2));
+    vecInt.push_back(make_pair(5, 2));
+
+    dictionaryAVL<int, int> dicInt(vecInt);
+    dicInt.printDic(); cout << endl;
 
     // testes AVL
     cout << "AVL:" << endl;

@@ -1,3 +1,4 @@
+ // Alana Maria Sousa Augusto - 564976
  #ifndef DICTIONARYAVL
  #define DICTIONARYAVL
 

@@ -5,6 +5,7 @@
 #include<iostream>
 #include<vector>
 #include <cmath>
+#include<algorithm>
 #include "../compare.hpp"
 
 using namespace std;
@@ -295,12 +296,25 @@ public:
  
     }  
 
-    // printa todos os valores da hash
+    // printa todos os valores da hash em ordem alfabética
     void print(){
-        for(size_t i = 0; i < m_table.size(); i++){
+        vector<pair<key, value>> vecAux;
+
+        for(size_t i = 0; i < m_tabSize; i++){
             if(m_table[i].s == ACTIVE){
-                cout << "(" << m_table[i].tuple.first << ", " << m_table[i].tuple.second << ") ";
+                vecAux.push_back(m_table[i].tuple);
             }
+        }
+
+        // função de sort que utiliza o compare da classe auxiliar pra casos em que
+        // a key é uma string com acentuação
+        sort(vecAux.begin(), vecAux.end(), 
+        [this](const pair<key, value>& a, const pair<key, value>& b){
+            return compare(a.first, b.first);
+        });
+
+        for(const auto& p : vecAux){
+            cout << "(" << p.first << ", " << p.second << ")" << endl;
         }
 
         cout << endl;

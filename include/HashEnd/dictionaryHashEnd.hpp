@@ -1,3 +1,4 @@
+ // Alana Maria Sousa Augusto - 564976
  #ifndef HASHEND_DICTIONARY
  #define HASHEND_DICTIONARY
 
@@ -42,7 +43,7 @@ public:
     }
 
     // retorna o valor associado a uma chave
-    value& get(const key& k){
+    value& at(const key& k){
         return (*hashTable)[k];
 
     }

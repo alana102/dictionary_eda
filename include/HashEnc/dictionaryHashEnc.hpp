@@ -42,7 +42,7 @@ public:
     }
 
     // retorna o valor associado a uma chave
-    value& get(const key& k){
+    value& at(const key& k){
         return (*hashTable)[k];
 
     }

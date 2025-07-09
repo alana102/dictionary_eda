@@ -248,13 +248,27 @@ public:
         reserve(m_numElements);
     }
 
-    // printa todos os valores da hash
+    // printa todos os valores da hash em ordem alfabética
     void print(){
-        for (size_t i = 0; i < m_table.size(); ++i) {
+        vector<pair<key, value>> vecAux;
+
+        for(size_t i = 0; i < m_table.size(); i++){
             for (auto& p : m_table[i]) {
-                std::cout << "(" << p.first << ", " << p.second << ") ";
+                vecAux.push_back(p);
             }
         }
+
+        // função de sort que utiliza o compare da classe auxiliar pra casos em que
+        // a key é uma string com acentuação
+        sort(vecAux.begin(), vecAux.end(), 
+        [this](const pair<key, value>& a, const pair<key, value>& b){
+            return compare(a.first, b.first);
+        });
+
+        for(const auto& p : vecAux){
+            cout << "(" << p.first << ", " << p.second << ")" << endl;
+        }
+
         cout << endl;
     }
 
