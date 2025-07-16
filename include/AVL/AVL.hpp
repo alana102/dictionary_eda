@@ -3,6 +3,8 @@
 #define AVL_HPP
 #include<vector>
 #include<iostream>
+#include<iomanip>
+#include <sstream>
 #include "../compare.hpp"
 
 using namespace std;
@@ -288,7 +290,29 @@ private:
     void printInfix(Node<k, value>* node) {
         if (node != nullptr) {
             printInfix(node->left);
-            cout << "(" << node->key.first << ", " << node->key.second <<")" << endl;
+
+            const int larguraFirst = 51;
+            const int larguraSecond = 12;
+
+            k first = node->key.first;
+            value second = node->key.second;
+
+            ostringstream oss;
+            oss << first;
+            string strFirst = oss.str();
+
+            int larguraVisual = 0;
+            for (unsigned char c : strFirst) {
+                if ((c & 0b11000000) != 0b10000000)
+                    larguraVisual++;
+            }
+
+            int espacos = larguraFirst - 1 - larguraVisual; 
+            if (espacos < 0) espacos = 0;
+            
+            cout << "| " << strFirst << string(espacos, ' ') << "| " << setw(larguraSecond - 1) << second << "|\n";
+            cout << "+" << string(larguraFirst, '-') << "+" << string(larguraSecond, '-') << "+\n";
+
             printInfix(node->right);
         }
     }

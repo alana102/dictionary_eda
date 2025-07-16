@@ -88,8 +88,8 @@ public:
         int compare = rbTree->getCounterCompare();
         int rotation = rbTree->getCounterRotation();
 
-        cout << "Num de comparacoes de chaves: " << compare << "." << endl;
-        cout << "Num de rotacoes: " << rotation << "." << endl;
+        cout << "Número de comparações de chaves: " << compare << "." << endl;
+        cout << "Número de rotações: " << rotation << "." << endl;
     }
 
     ~dictionaryRB(){

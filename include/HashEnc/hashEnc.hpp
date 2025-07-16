@@ -5,6 +5,7 @@
 #include<vector>
 #include<list>
 #include<cmath>
+#include<iomanip>
 #include "../compare.hpp"
 
 using namespace std;
@@ -265,8 +266,29 @@ public:
             return compare(a.first, b.first);
         });
 
+        const int larguraFirst = 51;
+        const int larguraSecond = 12;
+        
+
         for(const auto& p : vecAux){
-            cout << "(" << p.first << ", " << p.second << ")" << endl;
+            key first = p.first;
+            value second = p.second;
+
+            ostringstream oss;
+            oss << first;
+            string strFirst = oss.str();
+
+            int larguraVisual = 0;
+            for (unsigned char c : strFirst) {
+                if ((c & 0b11000000) != 0b10000000)
+                    larguraVisual++;
+            }
+
+            int espacos = larguraFirst - 1 - larguraVisual; 
+            if (espacos < 0) espacos = 0;
+            
+            cout << "| " << strFirst << string(espacos, ' ') << "| " << setw(larguraSecond - 1) << second << "|\n";
+            cout << "+" << string(larguraFirst, '-') << "+" << string(larguraSecond, '-') << "+\n";
         }
 
         cout << endl;

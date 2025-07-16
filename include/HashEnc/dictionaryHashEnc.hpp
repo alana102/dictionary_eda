@@ -93,8 +93,8 @@ public:
         int compare = hashTable->getCounterCompare();
         int rehash = hashTable->getCounterRehash();
 
-        cout << "Num de comparacoes de chaves: " << compare << "." << endl;
-        cout << "Num de rehashs: " << rehash << "." << endl;
+        cout << "Número de comparações de chaves: " << compare << "." << endl;
+        cout << "Número de rehashs: " << rehash << "." << endl;
     }
 
     ~dictionaryHashEnc(){
