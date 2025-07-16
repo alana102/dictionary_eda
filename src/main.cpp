@@ -1,7 +1,4 @@
 #include <iostream>
-#include <fstream>
-#include <unicode/unistr.h> 
-#include <unicode/locid.h> 
 
 #include "../include/AVL/dictionaryAVL.hpp"
 #include "../include/RBTree/dictionaryRB.hpp"

@@ -8,6 +8,7 @@
 #include <string>
 #include <streambuf>
 #include <iostream>
+#include <iomanip>
 #include <chrono>
 
 using namespace std;
@@ -49,31 +50,46 @@ string toLowerICU(const string& input) {
 
 // função que salva os valores do dicionário em um arquivo .txt
 template <typename Dictionary>
-void saveToFile(Dictionary& dic, const string& file_out, const string& file_in, const string& structure, milliseconds time){
+void saveToFile(Dictionary& dic, const string& file_out, const string& file_in, const string& structure, nanoseconds time){
     streambuf* coutBuf = cout.rdbuf();
 
-    ofstream outFile(file_out);
+    string file_out2 = "results/"+file_out;
+    ofstream outFile(file_out2);
     if (!outFile.is_open()) {
         cerr << "Erro ao abrir arquivo para salvar saída\n";
         return;
     }
 
     cout.rdbuf(outFile.rdbuf());
+
+    cout << "======================= INFORMAÇÕES GERAIS =======================" << endl;
     cout << "Dicionário do arquivo: " << file_in << endl;
     cout << "Estrutura utilizada: " << structure << endl;
     cout << "Quantidade de palavras: " << dic.qntPalavras() << endl;
+    cout << "========================== ESTATÍSTICAS ==========================" << endl;
     dic.printMetricas();
-    cout << "Tempo de construção do dicionário: " << time.count() << "ms " << endl;
-
+    cout << "Tempo de construção do dicionário: " << time.count() / 1e9 << " segundos " << endl;
+    cout << "==================================================================" << endl;
     cout << endl;
+
+    const int larguraPalavra = 51;
+    const int larguraFreq = 12;
+
+    cout << "+" << string(larguraPalavra, '-') << "+" << string(larguraFreq, '-') << "+\n";
+    cout << "| " << left << setw(larguraPalavra - 1) << "Palavra" << "| " << setw(larguraFreq - 1) << "Frequência " << "|\n";
+    cout << "+" << string(larguraPalavra, '-') << "+" << string(larguraFreq, '-') << "+\n";
+
     dic.printDic();
+
+
     cout.rdbuf(coutBuf);
+
     outFile.close();
 }
 
-// função que ler um arquivo e popula o dicionário
+// função que lê um arquivo e popula o dicionário
 // adicionando chaves e atualizando seus valores de acordo
-// com as ocorrências das palavras n arquivo .txt
+// com as ocorrências das palavras no arquivo .txt
 template <typename Dictionary>
 void executeDic(string file_in, Dictionary& dic, string file_out, string structure){
     auto begin = high_resolution_clock::now(); // define o começo da execução
@@ -81,7 +97,7 @@ void executeDic(string file_in, Dictionary& dic, string file_out, string structu
     cout << "Tentando abrir o arquivo: " << file_in << endl;
 
     if(!file.is_open()){
-        cerr << "falha ao abrir arquivo" << endl;
+        cerr << "Falha ao abrir arquivo" << endl;
         return; 
     }
 
@@ -105,7 +121,7 @@ void executeDic(string file_in, Dictionary& dic, string file_out, string structu
     }
     file.close();
     auto end = high_resolution_clock::now(); // define o fim da execução
-    auto duracao = duration_cast<milliseconds>(end - begin); // armazena o tempo total de execução em milissegundos
+    auto duracao = duration_cast<nanoseconds>(end - begin); // armazena o tempo total de execução em nanossegundos
 
     saveToFile(dic, file_out, file_in, structure, duracao);
 

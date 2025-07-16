@@ -27,6 +27,7 @@ int main(){
     vec.push_back(make_pair("difícil", 3));
     vec.push_back(make_pair("papéis", 3));
 
+    // teste com vetor de pares (int, int)
     vector<pair<int, int>> vecInt;
 
     vecInt.push_back(make_pair(4, 2));
