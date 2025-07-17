@@ -10,11 +10,11 @@ Então, gere um arquivo executável pelo terminal:
 
 Caso esteja compilando em uma máquina UNIX:
 
-`g++ -Wall -Wextra main.cpp -std=gnu++17 -licuuc -licuin -o programa`
+`g++ -Wall -Wextra main.cpp -std=gnu++17 -licuuc -licui18n -o programa`
 
 Caso esteja compilando em uma máquina Windows:
 
-`g++ -Wall -Wextra main.cpp -std=gnu++17 -IC:/icu/include -LC:/icu/lib -licuuc -licui18n -o programa`
+`g++ -Wall -Wextra main.cpp -std=gnu++17 -IC:/icu/include -LC:/icu/lib -licuuc -licuin -o programa`
 
 Note que os campos `-IC:/icu/include` e `-LC:/icu/lib` são caminhos para determinados diretórios, então lembre-se de verificar em que local os arquivos do ICU foram instalados em sua máquina [`-I` busca a pasta onde estão os headers (arquivos `.h`) e `-L` busca a pasta onde estão as bibliotecas (arquivos `.a`, `.lib`, `.dll.a`)].
 
