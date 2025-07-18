@@ -33,4 +33,4 @@ Exemplo de execução:
 Isso irá gerar um arquivo .txt na pasta `results` com o nome `bible-avl` contendo a contagem de frequência de cada palavra do arquivo `kjv-bible`, além de informações sobre as métricas implementadas no dicionário da AVL e a apresentação de quanto tempo (em segundos) a construção do dicionário em questão levou.
 
 ## Documentação
-A documentação de todo a implementação está na pasta docs.
+A documentação de toda a implementação está na pasta docs.
