@@ -11,7 +11,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-    // verifica se o usuário passou 4 argumentos argumentos
+    // verifica se o usuário passou 4 argumentos
     if(argc != 4){
         cerr << "Digite 4 argumentos" << endl;
         how_to_use();

@@ -127,6 +127,8 @@ void executeDic(string file_in, Dictionary& dic, string file_out, string structu
 
 }
 
+// função chamada sempre que o usuário digita algo errado no terminal
+// explicando o passo-a-passo para executar este projeto
 void how_to_use(){
     cout << "Para executar o programa digite algo como:" << endl;
     cout << ".\\programa.exe structure_type file_in file_out" << endl;
