@@ -1,0 +1,5 @@
+Teste 1: Inserindo 100 vezes um mesmo arquivo em um mesmo dicionário
+Tempo médio de execução AVL para BIBLIA: 5.07528
+Tempo médio de execução RB para BIBLIA: 4.44077
+Tempo médio de execução CHAINEDHASH para BIBLIA: 1.2253
+Tempo médio de execução OPENHASH para BIBLIA: 1.27652

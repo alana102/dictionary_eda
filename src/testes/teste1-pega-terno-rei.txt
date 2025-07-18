@@ -1,0 +1,5 @@
+Teste 1: Inserindo 100 vezes um mesmo arquivo em um mesmo dicionário
+Tempo médio de execução AVL para PEGATERNOREI: 0.00144643 segundos
+Tempo médio de execução RB para PEGATERNOREI: 0.000883453 segundos
+Tempo médio de execução ChainedHash para PEGATERNOREI: 0.000794025 segundos
+Tempo médio de execução OpenHash para PEGATERNOREI: 0.00102175 segundos

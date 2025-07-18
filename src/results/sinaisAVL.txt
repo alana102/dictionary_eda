@@ -1,0 +1,16 @@
+======================= INFORMAÇÕES GERAIS =======================
+Dicionário do arquivo: files/sinais.txt
+Estrutura utilizada: dicAVL
+Quantidade de palavras distintas: 1
+========================== ESTATÍSTICAS ==========================
+Número de comparações de chaves: 0.
+Número de rotações: 0.
+Tempo de construção do dicionário: 0.0084437 segundos 
+==================================================================
+
++---------------------------------------------------+------------+
+| Palavra                                           | Frequência |
++---------------------------------------------------+------------+
+| çç                                                | 1          |
++---------------------------------------------------+------------+
+

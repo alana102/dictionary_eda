@@ -36,8 +36,8 @@ private:
     vector<type<key, value>> m_table; // vetor para representar a tabela
     size_t m_tabSize; // tamanho da tabela
     size_t m_numElements; // nº de elementos
-    mutable int counter_compare; // contador de comparações de chaves
-    int counter_rehash; // contador de rehash
+    mutable size_t counter_compare; // contador de comparações de chaves
+    size_t counter_rehash; // contador de rehash
 
     // objeto que compara strings com acento
     CollatorCompare<key> compare;
@@ -317,6 +317,8 @@ public:
         const int larguraFirst = 51;
         const int larguraSecond = 12;
 
+        cout << "+" << string(larguraFirst, '-') << "+" << string(larguraSecond, '-') << "+\n";
+
         for(const auto& p : vecAux){
             key first = p.first;
             value second = p.second;
@@ -343,12 +345,12 @@ public:
     }
 
     // retorna quantas comparações foram feitas
-    int getCounterCompare(){
+    size_t getCounterCompare(){
         return counter_compare;
     }
 
     // retorna quantos rehashs foram feitos
-    int getCounterRehash(){
+    size_t getCounterRehash(){
         return counter_rehash;
     }
 

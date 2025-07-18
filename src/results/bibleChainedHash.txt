@@ -1,11 +1,11 @@
 ======================= INFORMAÇÕES GERAIS =======================
 Dicionário do arquivo: files/kjv-bible.txt
 Estrutura utilizada: dicChainedHash
-Quantidade de palavras: 16575
+Quantidade de palavras distintas: 16575
 ========================== ESTATÍSTICAS ==========================
 Número de comparações de chaves: 2225771.
 Número de rehashs: 11.
-Tempo de construção do dicionário: 2.30037 segundos 
+Tempo de construção do dicionário: 1.09622 segundos 
 ==================================================================
 
 +---------------------------------------------------+------------+

@@ -17,8 +17,8 @@ private:
 
     size_t m_numElements; // nº de elementos da tabela
     size_t m_tabSize; // tamanho da tabela
-    mutable int counterCompare; // contador de comparações
-    int counterRehash; // contador de rehash
+    mutable size_t counterCompare; // contador de comparações
+    size_t counterRehash; // contador de rehash
 
     float m_maxLoad; // define o máximo fator de carga
 
@@ -268,8 +268,9 @@ public:
 
         const int larguraFirst = 51;
         const int larguraSecond = 12;
-        
 
+        cout << "+" << string(larguraFirst, '-') << "+" << string(larguraSecond, '-') << "+\n";
+        
         for(const auto& p : vecAux){
             key first = p.first;
             value second = p.second;
@@ -295,12 +296,12 @@ public:
     }
 
     // retorna quantas comparações foram feitas
-    int getCounterCompare(){
+    size_t getCounterCompare(){
         return counterCompare;
     }
 
     // retorna quantos rehashs foram feitos
-    int getCounterRehash(){
+    size_t getCounterRehash(){
         return counterRehash;
     }
  

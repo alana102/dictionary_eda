@@ -1,0 +1,14 @@
+======================= INFORMAÇÕES GERAIS =======================
+Dicionário do arquivo: files/vazio.txt
+Estrutura utilizada: dicRB
+Quantidade de palavras distintas: 0
+========================== ESTATÍSTICAS ==========================
+Número de comparações de chaves: 0.
+Número de rotações: 0.
+Tempo de construção do dicionário: 0.0006742 segundos 
+==================================================================
+
++---------------------------------------------------+------------+
+| Palavra                                           | Frequência |
++---------------------------------------------------+------------+
+

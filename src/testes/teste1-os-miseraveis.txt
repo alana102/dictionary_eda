@@ -1,0 +1,5 @@
+Teste 1: Inserindo 100 vezes um mesmo arquivo em um mesmo dicionário
+Tempo médio de execução AVL para OS_MISERAVEIS: 3.79617 segundos
+Tempo médio de execução RB para OS_MISERAVEIS: 2.99689 segundos
+Tempo médio de execução ChainedHash para OS_MISERAVEIS: 0.755941 segundos
+Tempo médio de execução OpenHash para OS_MISERAVEIS: 0.761136 segundos

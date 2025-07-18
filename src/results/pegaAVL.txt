@@ -1,11 +1,11 @@
 ======================= INFORMAÇÕES GERAIS =======================
 Dicionário do arquivo: files/pega-terno-rei.txt
 Estrutura utilizada: dicAVL
-Quantidade de palavras: 32
+Quantidade de palavras distintas: 32
 ========================== ESTATÍSTICAS ==========================
 Número de comparações de chaves: 1830.
 Número de rotações: 16.
-Tempo de construção do dicionário: 0.0014886 segundos 
+Tempo de construção do dicionário: 0.002996 segundos 
 ==================================================================
 
 +---------------------------------------------------+------------+

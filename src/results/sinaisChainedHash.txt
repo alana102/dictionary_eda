@@ -1,0 +1,16 @@
+======================= INFORMAÇÕES GERAIS =======================
+Dicionário do arquivo: files/sinais.txt
+Estrutura utilizada: dicChainedHash
+Quantidade de palavras distintas: 1
+========================== ESTATÍSTICAS ==========================
+Número de comparações de chaves: 0.
+Número de rehashs: 0.
+Tempo de construção do dicionário: 0.0007857 segundos 
+==================================================================
+
++---------------------------------------------------+------------+
+| Palavra                                           | Frequência |
++---------------------------------------------------+------------+
+| çç                                                | 1          |
++---------------------------------------------------+------------+
+

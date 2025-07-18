@@ -31,8 +31,8 @@ template<typename k, typename value>
 class AVL {
 private:
     Node<k, value>* root; // raiz da árvore
-    int counter_compare; // contador de comparações
-    int counter_rotations; // contador de rotações
+    size_t counter_compare; // contador de comparações
+    size_t counter_rotations; // contador de rotações
 
     // objeto que compara strings com acento
     CollatorCompare<k> compare;
@@ -401,12 +401,12 @@ public:
     }
 
     // função que retorna quantas comparações foram feitas
-    int getCounterCompare(){
+    size_t getCounterCompare(){
         return counter_compare;
     }
 
     // função que retorna quantas rotações foram feitas
-    int getCounterRotation(){
+    size_t getCounterRotation(){
         return counter_rotations;
     }
 
@@ -433,6 +433,9 @@ public:
     // função que printa os nós da árvore em
     // ordem crescente
     void print(){
+        const int larguraFirst = 51;
+        const int larguraSecond = 12;
+        cout << "+" << string(larguraFirst, '-') << "+" << string(larguraSecond, '-') << "+\n";
         printInfix(root);
         cout << endl;
     }

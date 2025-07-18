@@ -53,7 +53,7 @@ template <typename Dictionary>
 void saveToFile(Dictionary& dic, const string& file_out, const string& file_in, const string& structure, nanoseconds time){
     streambuf* coutBuf = cout.rdbuf();
 
-    string file_out2 = "results/"+file_out;
+    string file_out2 = "results/"+file_out; 
     ofstream outFile(file_out2);
     if (!outFile.is_open()) {
         cerr << "Erro ao abrir arquivo para salvar saída\n";
@@ -65,7 +65,7 @@ void saveToFile(Dictionary& dic, const string& file_out, const string& file_in, 
     cout << "======================= INFORMAÇÕES GERAIS =======================" << endl;
     cout << "Dicionário do arquivo: " << file_in << endl;
     cout << "Estrutura utilizada: " << structure << endl;
-    cout << "Quantidade de palavras: " << dic.qntPalavras() << endl;
+    cout << "Quantidade de palavras distintas: " << dic.qntPalavras() << endl;
     cout << "========================== ESTATÍSTICAS ==========================" << endl;
     dic.printMetricas();
     cout << "Tempo de construção do dicionário: " << time.count() / 1e9 << " segundos " << endl;
@@ -77,7 +77,6 @@ void saveToFile(Dictionary& dic, const string& file_out, const string& file_in, 
 
     cout << "+" << string(larguraPalavra, '-') << "+" << string(larguraFreq, '-') << "+\n";
     cout << "| " << left << setw(larguraPalavra - 1) << "Palavra" << "| " << setw(larguraFreq - 1) << "Frequência " << "|\n";
-    cout << "+" << string(larguraPalavra, '-') << "+" << string(larguraFreq, '-') << "+\n";
 
     dic.printDic();
 
@@ -91,6 +90,7 @@ void saveToFile(Dictionary& dic, const string& file_out, const string& file_in, 
 // adicionando chaves e atualizando seus valores de acordo
 // com as ocorrências das palavras no arquivo .txt
 template <typename Dictionary>
+// mudar para void dps dnv
 void executeDic(string file_in, Dictionary& dic, string file_out, string structure){
     auto begin = high_resolution_clock::now(); // define o começo da execução
     ifstream file(file_in);
@@ -98,7 +98,7 @@ void executeDic(string file_in, Dictionary& dic, string file_out, string structu
 
     if(!file.is_open()){
         cerr << "Falha ao abrir arquivo" << endl;
-        return; 
+        return;
     }
 
     string word;

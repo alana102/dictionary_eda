@@ -1,0 +1,5 @@
+Teste 1: Inserindo 100 vezes um mesmo arquivo em um mesmo dicionário
+Tempo médio de execução AVL para DOMCASMURRO: 0.405137 segundos
+Tempo médio de execução RB para DOMCASMURRO: 0.300137 segundos
+Tempo médio de execução ChainedHash para DOMCASMURRO: 0.0929914 segundos
+Tempo médio de execução OpenHash para DOMCASMURRO: 0.0960984 segundos
